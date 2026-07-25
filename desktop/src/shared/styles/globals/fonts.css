@@ -1,0 +1,114 @@
+/*
+ * frank body brand fonts — self-hosted.
+ *
+ * Files are served from `desktop/public/fonts/` (Vite serves `public/` at the
+ * web root, so `/fonts/x.woff2` resolves in both the Tauri webview and the
+ * browser dev/preview build).
+ *
+ * THE BINARIES ARE NOT COMMITTED. Pitch and Founders Grotesk are licensed
+ * commercial faces from Klim Type Foundry and this repository is a public fork,
+ * so shipping them here would redistribute them publicly. See
+ * `desktop/public/fonts/README.md` for how to install them locally.
+ *
+ * Until the files are present these `@font-face` rules simply fail to load and
+ * the stacks in `tailwind.config.js` fall through to the next family, so the app
+ * stays usable — it just isn't on brand yet. `font-display: swap` keeps text
+ * visible throughout.
+ *
+ * Weights are declared only where a licensed file exists. Pitch Semibold (600)
+ * is the ONLY licensed Pitch weight — never synthesise other weights from it.
+ */
+
+/* Pitch Semibold — wordmark, channel names, numbers/IDs/counts, eyebrows. */
+@font-face {
+  font-family: "Pitch";
+  src:
+    url("/fonts/Pitch-Semibold.woff2") format("woff2"),
+    url("/fonts/Pitch-Semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Founders Grotesk Text — all body & UI copy. Light (300) is the brand default. */
+@font-face {
+  font-family: "Founders Grotesk";
+  src:
+    url("/fonts/FoundersGrotesk-Light.woff2") format("woff2"),
+    url("/fonts/FoundersGrotesk-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-LightItalic.otf") format("opentype");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-RegularItalic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-Medium.otf") format("opentype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-MediumItalic.otf") format("opentype");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-Semibold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-SemiboldItalic.otf") format("opentype");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Founders Grotesk";
+  src: url("/fonts/FoundersGroteskText-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}

@@ -80,9 +80,6 @@ importers:
       '@emoji-mart/react':
         specifier: ^1.1.1
         version: 1.1.1(emoji-mart@5.6.0)(react@19.2.7)
-      '@fontsource-variable/inter':
-        specifier: ^5.2.8
-        version: 5.2.8
       '@mediapipe/tasks-vision':
         specifier: ^0.10.35
         version: 0.10.35

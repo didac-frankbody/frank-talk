@@ -141,7 +141,10 @@ function ChannelWorkingBadge({
         "hidden max-w-32 shrink-0 truncate rounded-full px-1.5 py-0.5 text-2xs font-medium leading-none tabular-nums motion-safe:animate-pulse group-data-[collapsible=icon]:hidden sm:inline-flex",
         isActive
           ? "bg-sidebar-active-foreground/20 text-sidebar-active-foreground"
-          : "bg-primary/10 text-primary",
+          : // Solid brand fill with ink type rather than tinted brand type. A
+            // 10% pink wash on the ink sidebar was near-invisible, and pink is a
+            // background-only colour in this brand.
+            "bg-sidebar-primary text-sidebar-primary-foreground",
       )}
       data-testid={`channel-working-${channelName}`}
       title={title}

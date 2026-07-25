@@ -11,6 +11,12 @@ export default {
         "2xs": "0.6875rem", // 11px — meta-text workhorse (timestamps, badges)
         "3xs": "0.5rem", // 8px — tiny glyphs / micro labels
         badge: "0.625rem", // 10px — compact status badges
+        // 15px — the frank talk wordmark capsules (Pitch 600, .04em tracking).
+        // Sits between `text-sm` and `text-base`; the capsule pair is built to
+        // this size and drifts visibly at either neighbour.
+        wordmark: "0.9375rem",
+        // 19px — channel name in the channel header (Pitch 600, lowercase).
+        "channel-title": "1.1875rem",
         // 40px — onboarding page titles (tightened tracking for large display type)
         title: ["2.5rem", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
         // 36px — the backup-step private key, shown large in monospace
@@ -38,13 +44,23 @@ export default {
         4.5: "1.125rem",
       },
       fontFamily: {
+        // frank body brand type. Founders Grotesk Text carries all body and UI
+        // copy; Pitch Semibold is the display/"data" voice — wordmark, channel
+        // names, numbers, IDs, counts, and panel eyebrows (`font-display`).
+        //
+        // The faces are self-hosted from `public/fonts/` and declared in
+        // `styles/globals/fonts.css`. They are NOT committed (licensed faces,
+        // public repo), so these stacks intentionally keep real fallbacks —
+        // without the files the app renders in the system sans rather than
+        // breaking. Pitch falls back to a monospace because it is a typewriter
+        // face and the layouts assume its even, tabular rhythm.
         sans: [
-          '"Inter Variable"',
-          "Inter",
-          '"Avenir Next"',
-          '"Segoe UI"',
+          '"Founders Grotesk"',
+          "ui-sans-serif",
+          "system-ui",
           "sans-serif",
         ],
+        display: ['"Pitch"', '"Courier New"', "ui-monospace", "monospace"],
       },
       colors: {
         background: "hsl(var(--background))",

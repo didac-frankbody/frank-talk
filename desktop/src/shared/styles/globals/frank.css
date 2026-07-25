@@ -1,0 +1,213 @@
+/*
+ * frank talk — treatments that have no token to hang off.
+ *
+ * Almost all of the re-skin lands through the token map in
+ * `shared/theme/frank-theme.ts`, which is applied at runtime as inline vars on
+ * `:root`. What is left here are the handful of things a colour token cannot
+ * express: the brand scrollbar, the ink-tinted shadow set, and the hero card's
+ * pink left rule.
+ *
+ * Everything is scoped to `:root[data-frank-theme]` (set by `ThemeProvider`'s
+ * `applyFrankTheme`) so no other theme is affected.
+ *
+ * Rules that need to beat a Tailwind utility are intentionally UNLAYERED —
+ * unlayered declarations win over any `@layer`, which is how the Buzz theme
+ * overrides `bg-sidebar` in this same directory. Do not wrap them in
+ * `@layer components` or they will stop applying.
+ */
+
+/*
+ * Brand scrollbar (design system §6.12): blush track, pink-soft thumb, ink on
+ * hover, 8px. Expressed in tokens rather than the handoff's literal hexes so
+ * frank dark inherits it correctly — under frank, `--muted` IS blush and
+ * `--accent` IS pink-soft.
+ *
+ * Scoped to the default scrollbars only. The `.buzz-sidebar-scrollbar` and
+ * `.buzz-content-scrollbar` classes in `scrollbars.css` are deliberately left
+ * alone: they carry WKWebView workarounds (overlay scrollbars painting under
+ * composited sticky chrome, and WebKit not re-resolving `::-webkit-scrollbar`
+ * on dynamic class changes) that a colour change here would silently undo.
+ */
+:root[data-frank-theme] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+:root[data-frank-theme]
+  :not(.buzz-sidebar-scrollbar):not(
+    .buzz-content-scrollbar
+  )::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+:root[data-frank-theme]
+  :not(.buzz-sidebar-scrollbar):not(
+    .buzz-content-scrollbar
+  )::-webkit-scrollbar-thumb {
+  background: hsl(var(--accent));
+  border-radius: 4px;
+}
+
+:root[data-frank-theme]
+  :not(.buzz-sidebar-scrollbar):not(
+    .buzz-content-scrollbar
+  )::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foreground));
+}
+
+/*
+ * "Original Pink is a background, never a text colour."
+ *
+ * That brand rule collides with an existing app convention: `text-primary` is
+ * used in ~100 places to mean "brand-coloured text", and a further set pairs it
+ * with a `bg-primary/10` wash (mention chips, reaction pills, attachment
+ * labels, event badges). Under every previous theme `--primary` was a saturated
+ * blue/purple, so that read fine. Under frank it is a pale pink — pink type on
+ * a pale-pink wash is illegible, and pink type on white is barely better.
+ *
+ * Remapping the utility once here fixes every one of those sites at the root
+ * instead of scattering ~100 edits, and it encodes the rule rather than
+ * restating it per call site: under frank, brand-coloured *text* is ink. The
+ * pink `bg-primary/10` wash is left alone — it is a background, which is
+ * exactly what pink is for, and ink on it has strong contrast.
+ *
+ * Unlayered so it beats the Tailwind utilities layer. The opacity variants are
+ * enumerated because Tailwind emits each as its own class; this is the complete
+ * set currently in `src` (`text-primary`, `/60`, `/70`, `/80`, plus `hover:`).
+ * If you add a new one, add it here too.
+ *
+ * Call sites that genuinely want a pink *fill* should use
+ * `bg-primary text-primary-foreground` and are unaffected by this rule.
+ */
+:root[data-frank-theme] .text-primary,
+:root[data-frank-theme] .text-primary\/80,
+:root[data-frank-theme] .text-primary\/70,
+:root[data-frank-theme] .text-primary\/60,
+:root[data-frank-theme] .hover\:text-primary:hover,
+:root[data-frank-theme] .hover\:text-primary\/80:hover {
+  color: hsl(var(--foreground));
+}
+
+/*
+ * Primary buttons are INK, not pink.
+ *
+ * This resolves a genuine contradiction in the handoff. Its token map sets
+ * `--primary` to Original Pink, which is right for active states, badges and
+ * accents — but shadcn's `Button` default variant is also `bg-primary`, and the
+ * brand is explicit that a primary button is ink with white type (design.md
+ * §6.3, and the handoff's own metrics call for a "round 32px ink send button").
+ * Taken literally, the token map alone turns every primary action in the app
+ * into a pale pink button with low-contrast type.
+ *
+ * So `--primary` stays pink for fills and the *button* is repainted here.
+ * Scoped to `button`/`a` elements so the many tinted `bg-primary/10` pills
+ * (reactions, chips, badges) are untouched — those are backgrounds, which is
+ * what pink is for. The `hover:bg-primary/90` utility is matched too, or it
+ * would flip the button back to pink on hover.
+ *
+ * Uses `--foreground`/`--background` rather than literal ink/white so frank
+ * dark inverts correctly: there the shell IS ink, so a primary button becomes
+ * the pale brand tone with dark type.
+ */
+:root[data-frank-theme] :is(button, a).bg-primary,
+:root[data-frank-theme] :is(button, a).hover\:bg-primary\/90:hover {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+/* Brand hover is "darken the fill", never a hue change. */
+:root[data-frank-theme] :is(button, a).bg-primary:hover {
+  background-color: color-mix(in srgb, hsl(var(--foreground)) 86%, #000);
+}
+
+/*
+ * Mention / channel chips (`@alice`, `#general`).
+ *
+ * `markdown.css` paints these as `background: hsl(var(--primary) / 0.15)` with
+ * `color: hsl(var(--primary))` — brand type on a brand wash. That is a real CSS
+ * rule rather than a Tailwind utility, so the remap above does not reach it, and
+ * under frank it renders pale pink type on a paler pink wash: the single least
+ * legible thing in the timeline.
+ *
+ * Recast as the brand's chip: a pink-soft fill carrying ink type (design.md
+ * §6.5). Hover deepens the fill to full Original Pink and keeps the type ink,
+ * so the hover affordance is a fill change rather than a text-colour change.
+ */
+:root[data-frank-theme] .message-markdown .mention-chip {
+  background: hsl(var(--accent));
+  color: hsl(var(--foreground));
+}
+
+:root[data-frank-theme] .mention-chip-hover:hover {
+  background: hsl(var(--primary));
+  color: hsl(var(--foreground));
+}
+
+/*
+ * Links in the composer. `composer.css` colours them `hsl(var(--primary))`,
+ * which is the same pink-as-type problem as the mention chips — and here there
+ * is not even a wash behind it, so a pasted URL renders as pale pink on white.
+ * The brand's link treatment is ink plus an underline (design.md §11), letting
+ * the underline carry the affordance instead of hue.
+ */
+:root[data-frank-theme] .rich-text-composer .tiptap a {
+  color: hsl(var(--foreground));
+}
+
+/*
+ * …except inside the sidebar, which is ink under frank — ink type on ink would
+ * vanish. Nothing in `src` relies on this today (the two sidebar chips were
+ * converted to solid pink fills with ink type), but it keeps the rule above
+ * from silently breaking the next `text-primary` someone adds to the nav.
+ */
+:root[data-frank-theme] [data-testid="app-sidebar"] .text-primary,
+:root[data-frank-theme] [data-testid="community-rail"] .text-primary {
+  color: hsl(var(--sidebar-foreground));
+}
+
+/*
+ * Ink-tinted elevation. The brand rule is that shadows are never grey-black —
+ * they are always tinted with ink (#3F2A2D). `shadow-panel-left` in
+ * `tailwind.config.js` hardcodes `rgb(0 0 0 / 0.18)` for its soft layer, which
+ * reads as a dirty grey against the warm frank surfaces. Repaint it to the
+ * handoff's thread-panel shadow, which is the same two-layer shape in ink.
+ */
+:root[data-frank-theme] .shadow-panel-left {
+  box-shadow:
+    -1px 0 0 rgba(63, 42, 45, 0.1),
+    -16px 0 32px -12px rgba(63, 42, 45, 0.12);
+}
+
+/*
+ * The hero / agent-output card (design system §6.9, handoff's agent surfaces
+ * row): white, hairline ink border, and a 5px Original Pink left rule. This is
+ * the brand's "the AI noticed something" pattern, and the pink rule is what
+ * makes it read as branded rather than as a generic callout.
+ *
+ * Applied via a data attribute rather than a utility class so the markup states
+ * intent (`data-frank-hero-card`) and the styling can evolve without touching
+ * every call site.
+ */
+:root[data-frank-theme] [data-frank-hero-card] {
+  background: hsl(var(--card));
+  border: 1px solid rgba(63, 42, 45, 0.1);
+  border-left: 5px solid hsl(var(--primary));
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(63, 42, 45, 0.05);
+}
+
+:root[data-frank-theme].dark [data-frank-hero-card] {
+  border-color: hsl(var(--border));
+  border-left-color: hsl(var(--primary));
+}
+
+/*
+ * The logo zone: the block at the top of the sidebar holding the wordmark
+ * capsules and the tagline. 88px tall with a 2px white/12% rule beneath it.
+ * The capsules themselves are built in `FrankWordmark.tsx` with utilities; only
+ * the zone's frame lives here because it overrides the shell's own header
+ * padding.
+ */
+:root[data-frank-theme] [data-frank-logo-zone] {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+}
