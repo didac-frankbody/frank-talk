@@ -47,7 +47,9 @@ export function ChannelIntroBlock({
       >
         {intro.icon ?? <Hash aria-hidden className="h-7 w-7" />}
       </div>
-      <p className="mt-4 max-w-2xl truncate text-xl font-semibold leading-7 tracking-tight text-foreground">
+      {/* Channel names are Pitch 600, lowercase — the same display voice as the
+          channel header, one step larger here since this is the intro. */}
+      <p className="mt-4 max-w-2xl truncate font-display text-xl font-semibold lowercase leading-7 text-foreground">
         #{intro.channelName}
       </p>
       <p className="mt-1 max-w-2xl text-sm leading-5 text-muted-foreground">

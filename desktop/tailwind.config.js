@@ -99,6 +99,11 @@ export default {
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
+          // The community rail sits one step darker than the sidebar so the
+          // mention-badge ring has something to read against. Falls back to the
+          // sidebar colour for themes that don't define it, which keeps every
+          // non-frank theme looking exactly as it did.
+          rail: "hsl(var(--sidebar-rail, var(--sidebar-background)))",
           primary: "hsl(var(--sidebar-primary))",
           "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
           active: "hsl(var(--sidebar-active))",

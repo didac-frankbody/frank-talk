@@ -122,7 +122,12 @@ export function ChatHeader({
       data-tauri-drag-region
     >
       <div className="flex h-9 min-w-0 items-center gap-2.5">
-        <div className="min-w-0 flex-1">
+        {/*
+         * 200px floor on the title column (handoff, "Layout constraints"): the
+         * right-hand control cluster is allowed to shrink and wrap, but the
+         * channel name must not be squeezed to a couple of ellipsed characters.
+         */}
+        <div className="min-w-[12.5rem] flex-1">
           <div className="group/title flex min-w-0 items-center gap-[4px] overflow-hidden">
             <div className="flex shrink-0 items-center">
               {leadingContent ?? (
@@ -135,7 +140,15 @@ export function ChatHeader({
             </div>
             <h1
               className={cn(
-                "min-w-0 truncate text-base font-semibold leading-6 tracking-tight",
+                "min-w-0 truncate leading-6",
+                // Channel names are the brand's display voice: Pitch 600 at
+                // 19px, lowercase. Uppercase Pitch would need .2em tracking to
+                // be legible, which is wrong at this size, so it stays lower.
+                // DM titles are people's names — they keep the UI face and
+                // their own capitalisation.
+                channelType === "dm"
+                  ? "text-base font-semibold tracking-tight"
+                  : "font-display text-channel-title font-semibold lowercase",
                 channelType !== "dm" && "translate-y-px",
               )}
               data-testid="chat-title"

@@ -6,7 +6,9 @@ import { openSettings } from "../helpers/settings";
 const SIDEBAR_WIDTH_STORAGE_KEY = "buzz-sidebar-width";
 const COMMUNITY_ONBOARDING_STORAGE_KEY =
   "buzz-community-onboarding-transaction.v1";
-const DEFAULT_SIDEBAR_WIDTH = 300;
+// Mirrors SIDEBAR_WIDTH_DEFAULT in shared/ui/sidebar.tsx — 252px, the frank talk
+// sidebar width from the design handoff.
+const DEFAULT_SIDEBAR_WIDTH = 252;
 
 test.beforeEach(async ({ page }) => {
   await installMockBridge(page);
@@ -413,31 +415,43 @@ for (const theme of ["buzz", "github-light", "catppuccin-mocha"]) {
   });
 }
 
-test("aligns the sidebar search with the channel title outside the Buzz theme", async ({
+/**
+ * This replaces an older assertion that the sidebar search was vertically
+ * centred on the channel title. The frank talk design puts an 88px logo zone at
+ * the top of the sidebar, so the sidebar's first row is the wordmark and the
+ * search sits below it — the two columns' first rows are structurally no longer
+ * co-centred, in any theme. The wordmark is app branding rather than a theme
+ * treatment, so it renders regardless of which colour theme is loaded.
+ *
+ * What is still worth protecting is the stack order: the logo zone on top, the
+ * search fully below it, neither overlapping.
+ */
+test("stacks the wordmark above the sidebar search in every theme", async ({
   page,
 }) => {
   await loadTheme(page, "github-light");
   await page.getByTestId("channel-general").click();
 
   const root = page.locator("html");
+  const logoZone = page.getByTestId("frank-logo-zone");
   const search = page.getByTestId("open-search");
   const channelTitle = page.getByTestId("chat-title");
   await expect(root).not.toHaveAttribute("data-buzz-sidebar", "");
+  await expect(logoZone).toBeVisible();
   await expect(search).toBeVisible();
   await expect(channelTitle).toHaveText("general");
 
-  const [searchBox, channelTitleBox] = await Promise.all([
+  const [logoBox, searchBox] = await Promise.all([
+    logoZone.boundingBox(),
     search.boundingBox(),
-    channelTitle.boundingBox(),
   ]);
+  expect(logoBox).not.toBeNull();
   expect(searchBox).not.toBeNull();
-  expect(channelTitleBox).not.toBeNull();
 
-  if (!searchBox || !channelTitleBox) return;
+  if (!logoBox || !searchBox) return;
 
-  const searchCenter = searchBox.y + searchBox.height / 2;
-  const channelTitleCenter = channelTitleBox.y + channelTitleBox.height / 2;
-  expect(Math.abs(searchCenter - channelTitleCenter)).toBeLessThanOrEqual(2);
+  // The search begins at or below the logo zone's bottom edge.
+  expect(searchBox.y).toBeGreaterThanOrEqual(logoBox.y + logoBox.height);
 });
 
 test("sidebar rail resizes without toggling the sidebar", async ({ page }) => {
@@ -459,14 +473,18 @@ test("resizes, persists, and snaps to the default sidebar width", async ({
   await expect.poll(() => sidebarWidth(page)).toBe(DEFAULT_SIDEBAR_WIDTH);
   await expect.poll(() => storedSidebarWidth(page)).toBeNull();
 
+  // Derived rather than hardcoded so it follows DEFAULT_SIDEBAR_WIDTH. The drag
+  // is far enough out to clear the snap magnet around the default.
+  const draggedWidth = DEFAULT_SIDEBAR_WIDTH + 64;
+
   await dragSidebarRail(page, 64);
 
-  await expect.poll(() => sidebarWidth(page)).toBe(364);
-  await expect.poll(() => storedSidebarWidth(page)).toBe("364");
+  await expect.poll(() => sidebarWidth(page)).toBe(draggedWidth);
+  await expect.poll(() => storedSidebarWidth(page)).toBe(String(draggedWidth));
 
   await page.reload();
   await expect(page.getByTestId("app-sidebar")).toBeVisible();
-  await expect.poll(() => sidebarWidth(page)).toBe(364);
+  await expect.poll(() => sidebarWidth(page)).toBe(draggedWidth);
 
   await dragSidebarRail(page, -60);
 

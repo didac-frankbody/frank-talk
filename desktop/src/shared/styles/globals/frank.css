@@ -166,6 +166,68 @@
 }
 
 /*
+ * Sidebar section labels ("CHANNELS", "DIRECT MESSAGES") and row metrics.
+ *
+ * Scoped to frank rather than changed in the shared components, because these
+ * are brand typography decisions — every other theme in the picker should keep
+ * the sidebar it has today. Sizes are in rem so Cmd +/- zoom still scales them
+ * (0.6875rem === the `text-2xs` token's 11px).
+ */
+:root[data-frank-theme] [data-sidebar="group-label"] {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: hsl(var(--sidebar-foreground) / 0.5);
+  /*
+   * Uppercase + .14em tracking makes these labels much wider than their
+   * sentence-case originals — "Direct messages" overflowed the 252px sidebar and
+   * wrapped onto a clipped second line. Keep them on one line and ellipse
+   * instead; the section is also identifiable by its contents.
+   */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Rows: 32px tall, 8px padding-x, 6px radius. */
+:root[data-frank-theme] [data-sidebar="menu-button"],
+:root[data-frank-theme] [data-sidebar="menu-sub-button"] {
+  border-radius: 6px;
+  min-height: 2rem;
+  padding-inline: 0.5rem;
+}
+
+/*
+ * Sidebar text sits at 62% white at rest and goes to full white when a row is
+ * unread or active — the brand's way of ranking rows without a second colour.
+ * Muted channels drop to 50%.
+ */
+:root[data-frank-theme]
+  [data-testid="app-sidebar"]
+  [data-sidebar="menu-button"]:not([data-active="true"]),
+:root[data-frank-theme]
+  [data-testid="app-sidebar"]
+  [data-sidebar="menu-sub-button"]:not([data-active="true"]) {
+  color: hsl(var(--sidebar-foreground) / 0.62);
+}
+
+/*
+ * Composer: 11px radius on a 1.5px ink/14 border (handoff metrics). The stock
+ * composer uses `rounded-2xl` (16px) with a 1px hairline, which reads too soft
+ * and too faint beside the brand's squarer, more deliberate input treatment.
+ */
+:root[data-frank-theme] [data-testid="message-composer"] {
+  border-radius: 11px;
+  border-width: 1.5px;
+  border-color: rgba(63, 42, 45, 0.14);
+}
+
+:root[data-frank-theme].dark [data-testid="message-composer"] {
+  border-color: hsl(var(--input));
+}
+
+/*
  * Ink-tinted elevation. The brand rule is that shadows are never grey-black —
  * they are always tinted with ink (#3F2A2D). `shadow-panel-left` in
  * `tailwind.config.js` hardcodes `rgb(0 0 0 / 0.18)` for its soft layer, which

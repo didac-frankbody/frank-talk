@@ -159,14 +159,14 @@ function CommunityButton({
               </span>
               {showBadge ? (
                 <span
-                  className="absolute -bottom-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-2xs font-semibold text-primary-foreground ring-2 ring-sidebar"
+                  className="absolute -bottom-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-2xs font-semibold text-primary-foreground ring-2 ring-sidebar-rail"
                   data-testid={`community-rail-mentions-${community.id}`}
                 >
                   {badgeLabel}
                 </span>
               ) : showDot ? (
                 <span
-                  className="absolute -bottom-0.5 -right-0.5 h-2 w-2 shrink-0 rounded-full bg-primary ring-2 ring-sidebar"
+                  className="absolute -bottom-0.5 -right-0.5 h-2 w-2 shrink-0 rounded-full bg-primary ring-2 ring-sidebar-rail"
                   data-testid={`community-rail-unread-dot-${community.id}`}
                 >
                   <span className="sr-only">unread</span>
@@ -380,7 +380,10 @@ export function CommunityRail({
     <nav
       aria-label="Communities"
       className={cn(
-        "flex w-12 shrink-0 flex-col items-center gap-2 overflow-y-auto bg-sidebar pb-3",
+        // `bg-sidebar-rail` is one step darker than the sidebar under frank, so
+        // the mention badge's ring has a surface to separate against. It falls
+        // back to the sidebar colour for themes with no rail token.
+        "flex w-12 shrink-0 flex-col items-center gap-2 overflow-y-auto bg-sidebar-rail pb-3",
         topPaddingClass,
       )}
       data-testid="community-rail"

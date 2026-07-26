@@ -28,7 +28,10 @@ import {
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
 const SIDEBAR_WIDTH_STORAGE_KEY = "buzz-sidebar-width";
-const SIDEBAR_WIDTH_DEFAULT = 300;
+// 252px is the frank talk sidebar width from the design handoff. The sidebar
+// stays user-resizable (min/max below) and a persisted width still wins — this
+// only sets what a fresh profile opens at.
+const SIDEBAR_WIDTH_DEFAULT = 252;
 const SIDEBAR_WIDTH_DEFAULT_HAPTIC_THRESHOLD = 2;
 const SIDEBAR_WIDTH_DEFAULT_SNAP_DISTANCE = 8;
 const SIDEBAR_WIDTH_DEFAULT_MAGNET_DISTANCE = 28;

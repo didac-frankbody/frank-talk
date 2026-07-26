@@ -34,7 +34,10 @@ export function MessageTimestamp({
         <TooltipTrigger asChild>
           <p
             className={cn(
-              "shrink-0 cursor-default whitespace-nowrap text-xs font-normal leading-4 tabular-nums text-muted-foreground/55",
+              // Clock times are numerals, so they take the brand's data voice
+              // (Pitch via `font-display`). Tabular figures keep the column
+              // steady as the minute changes.
+              "shrink-0 cursor-default whitespace-nowrap font-display text-xs font-normal leading-4 tabular-nums text-muted-foreground/55",
               className,
             )}
           >

@@ -346,7 +346,7 @@
 :root[data-buzz-sidebar]
   .group\/sidebar-wrapper
   .bg-sidebar:not([data-buzz-flat]),
-:root[data-buzz-sidebar] [data-testid="community-rail"].bg-sidebar,
+:root[data-buzz-sidebar] [data-testid="community-rail"].bg-sidebar-rail,
 :root[data-buzz-sidebar]
   [data-testid="app-sidebar"]
   [data-testid="sidebar-pinned-header"],
