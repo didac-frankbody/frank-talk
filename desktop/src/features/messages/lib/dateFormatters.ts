@@ -4,8 +4,9 @@
  * - `formatTime` — short clock time ("2:34 PM"), used in message rows.
  * - `formatFullDateTime` — verbose string for tooltips
  *   ("Wednesday, April 2, 2026 at 2:34 PM").
- * - `formatDayHeading` — label for day dividers / sticky headers.
- *   Returns "Today", "Yesterday", or a date like "Monday, March 31st".
+ * - `formatDayHeading` — label for day dividers / sticky headers. Relative
+ *   inside a week ("Today", "Yesterday", "Tue"), absolute beyond it
+ *   ("12 Mar 2026"). Never ISO.
  * - `isSameDay` — compare two unix-second timestamps.
  */
 
@@ -25,13 +26,26 @@ const FULL_DATE_TIME_FORMATTER = new Intl.DateTimeFormat("en-US", {
   minute: "2-digit",
 });
 
-const WEEKDAY_FORMATTER = new Intl.DateTimeFormat("en-US", {
-  weekday: "long",
+/** Abbreviated weekday for the within-a-week day dividers, e.g. "Tue". */
+const SHORT_WEEKDAY_FORMATTER = new Intl.DateTimeFormat("en-US", {
+  weekday: "short",
 });
 
-const LONG_MONTH_FORMATTER = new Intl.DateTimeFormat("en-US", {
-  month: "long",
+/**
+ * Absolute day label for anything older than a week, e.g. "12 Mar 2026".
+ *
+ * Day-month-year with an abbreviated month, per the brand's date rule — never
+ * ISO, and never a bare numeric date that reads differently either side of the
+ * Atlantic.
+ */
+const ABSOLUTE_DAY_FORMATTER = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
 });
+
+/** Days inside which a day divider stays relative rather than absolute. */
+const RELATIVE_DAY_WINDOW = 7;
 
 const SHORT_MONTH_FORMATTER = new Intl.DateTimeFormat("en-US", {
   month: "short",
@@ -54,8 +68,15 @@ export function formatFullDateTime(unixSeconds: number): string {
 
 /**
  * Human-friendly day label for dividers and sticky headers.
- * Returns "Today", "Yesterday", a current-year date like "Monday, March 31st",
- * or a prior-year date like "Monday, March 31st, 2025".
+ *
+ * Relative inside a week — "Today", "Yesterday", then an abbreviated weekday
+ * like "Tue" — and absolute beyond it, as "12 Mar 2026". This is the brand's
+ * date rule: relative while a reader still has the week in their head, an
+ * unambiguous day-month-year once they don't, and never an ISO string.
+ *
+ * The app splits date and time across two elements — the divider carries the
+ * day and `MessageTimestamp` carries the clock time — so a single row reads as
+ * the handoff's "Tue 4:02pm" without either piece repeating the other.
  */
 export function formatDayHeading(unixSeconds: number): string {
   const date = new Date(unixSeconds * 1_000);
@@ -71,13 +92,19 @@ export function formatDayHeading(unixSeconds: number): string {
     return "Yesterday";
   }
 
-  const dateLabel = `${WEEKDAY_FORMATTER.format(date)}, ${formatMonthDayOrdinal(
-    date,
-    LONG_MONTH_FORMATTER,
-  )}`;
-  return date.getFullYear() === now.getFullYear()
-    ? dateLabel
-    : `${dateLabel}, ${date.getFullYear()}`;
+  // Compare calendar days, not elapsed milliseconds, so "6 days ago" doesn't
+  // flip to absolute partway through the day depending on the clock time.
+  const daysApart = Math.round(
+    (startOfLocalDaySeconds(Math.floor(now.getTime() / 1_000)) -
+      startOfLocalDaySeconds(unixSeconds)) /
+      86_400,
+  );
+
+  if (daysApart > 0 && daysApart < RELATIVE_DAY_WINDOW) {
+    return SHORT_WEEKDAY_FORMATTER.format(date);
+  }
+
+  return ABSOLUTE_DAY_FORMATTER.format(date);
 }
 
 /** True when two unix-second timestamps fall on the same calendar day (local time). */

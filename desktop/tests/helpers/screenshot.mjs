@@ -101,7 +101,18 @@ const TEST_PUBKEYS = [
 // inside the rounded focus drawer. Headed rendering is correct, as is the real
 // app's WKWebView, so this is a capture-only artifact. Default stays headless so
 // CI is unaffected.
-const browser = await chromium.launch({ headless: !process.env.BUZZ_HEADED });
+//
+// `BUZZ_CHROMIUM_PATH` points the launcher at an already-installed Chromium.
+// Containers and CI images often ship a browser whose build number does not
+// match the pinned `@playwright/test`, and Playwright then refuses to launch and
+// tells you to download one — which such images deliberately disallow. Setting
+// this env var reuses the local binary instead. Unset, behaviour is unchanged.
+const browser = await chromium.launch({
+  headless: !process.env.BUZZ_HEADED,
+  ...(process.env.BUZZ_CHROMIUM_PATH
+    ? { executablePath: process.env.BUZZ_CHROMIUM_PATH }
+    : {}),
+});
 const page = await browser.newPage({
   viewport: { width: vpWidth, height: vpHeight },
 });

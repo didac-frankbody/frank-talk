@@ -64,6 +64,7 @@ import type {
   SearchHit,
   UserStatus,
 } from "@/shared/api/types";
+import { FrankLogoZone } from "@/shared/ui/frank-logo/FrankWordmark";
 import {
   Sidebar,
   SidebarContent,
@@ -566,6 +567,8 @@ export function AppSidebar({
         data-sidebar-background
         data-testid="app-sidebar-scroll-anchor"
       >
+        <FrankLogoZone />
+
         <AppSidebarPinnedHeader
           channelLabels={dmChannelLabels}
           currentPubkey={currentPubkey}

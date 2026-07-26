@@ -12,6 +12,7 @@ import { getCurrentWindow } from "@tauri-apps/api/window";
 import { invokeTauri } from "@/shared/api/tauri";
 import { isMacPlatform } from "@/shared/lib/platform";
 import { createThemeVars, hexToHsl } from "./adaptive-theme";
+import { getFrankVars, isFrankTheme } from "./frank-theme";
 import {
   SYNTAX_THEMES,
   type SyntaxThemeName,
@@ -25,6 +26,17 @@ export const THEME_STORAGE_KEY = "buzz-theme";
 const CACHE_KEY = "buzz-theme-cache";
 export const ACCENT_STORAGE_KEY = "buzz-accent-color";
 export const NEUTRAL_ACCENT = "neutral";
+/**
+ * Sentinel accent for the frank talk themes.
+ *
+ * The brand pins `--primary` to Original Pink with ink type, so the accent pass
+ * must not touch the primary family at all. `NEUTRAL_ACCENT` is not good enough
+ * here — it overwrites `--primary` with the *foreground* colour, which under
+ * frank would repaint every pink fill ink-on-ink. A user-selected swatch would
+ * be worse still (an off-brand hue). This sentinel keeps the brand tokens
+ * intact and only publishes the accent-derived extras.
+ */
+const FRANK_ACCENT = "frank-brand";
 const FOLLOW_SYSTEM_KEY = "buzz-follow-system";
 const VIDEO_REVIEW_NEUTRAL_ACCENT = "0 0% 98%";
 const VIDEO_REVIEW_CHIP_SURFACE = "#161616";
@@ -172,6 +184,27 @@ function rgbToHex({ r, g, b }: Rgb): string {
 
 function applyAccentColor(value: string) {
   const root = document.documentElement;
+  if (value === FRANK_ACCENT) {
+    // Leave --primary / --sidebar-primary / --sidebar-active exactly as the
+    // frank token map set them. Only the accent-derived extras are published,
+    // and the video-review chrome keeps its neutral treatment — that overlay
+    // sits on a near-black surface where pink type would break the
+    // background-only rule.
+    const primary = window
+      .getComputedStyle(root)
+      .getPropertyValue("--primary")
+      .trim();
+    root.style.setProperty("--buzz-selected-accent", primary);
+    root.style.setProperty(
+      "--buzz-video-review-accent",
+      VIDEO_REVIEW_NEUTRAL_ACCENT,
+    );
+    root.style.setProperty(
+      "--buzz-video-review-accent-foreground",
+      VIDEO_REVIEW_NEUTRAL_ACCENT,
+    );
+    return;
+  }
   if (value === NEUTRAL_ACCENT) {
     const styles = window.getComputedStyle(root);
     const foreground = styles.getPropertyValue("--foreground").trim();
@@ -223,13 +256,23 @@ export function isBuzzTheme(themeName: string): boolean {
 }
 
 /**
- * Resolve the accent to actually apply for a theme: Buzz themes are pinned to
- * the neutral accent; every other theme uses the stored/selected accent.
+ * Whether a theme supplies its own fixed accent and so hides the accent picker.
+ * Buzz pins the neutral accent; frank talk pins the brand pink.
+ */
+export function isAccentPinnedTheme(themeName: string): boolean {
+  return isBuzzTheme(themeName) || isFrankTheme(themeName);
+}
+
+/**
+ * Resolve the accent to actually apply for a theme: frank themes keep their
+ * brand pink, Buzz themes are pinned to the neutral accent, and every other
+ * theme uses the stored/selected accent.
  */
 function resolveEffectiveAccent(
   themeName: string,
   accentColor: string,
 ): string {
+  if (isFrankTheme(themeName)) return FRANK_ACCENT;
   return isBuzzTheme(themeName) ? NEUTRAL_ACCENT : accentColor;
 }
 
@@ -241,6 +284,23 @@ function resolveEffectiveAccent(
  * must be sequenced against the native vibrancy layer — see
  * {@link applyBuzzVibrancy}.
  */
+/**
+ * Toggle the `data-frank-theme` marker on the document root.
+ *
+ * frank talk is almost entirely expressible through the token map, but a few
+ * treatments have no token to hang off — the wordmark's logo zone, the brand
+ * scrollbar, the pink-left-border hero card. Those live in
+ * `globals/frank.css`, scoped to this attribute so no other theme is touched.
+ */
+function applyFrankTheme(themeName: string) {
+  const root = document.documentElement;
+  if (isFrankTheme(themeName)) {
+    root.setAttribute("data-frank-theme", themeName);
+  } else {
+    root.removeAttribute("data-frank-theme");
+  }
+}
+
 function applyBuzzSidebar(themeName: string) {
   const root = document.documentElement;
   if (isBuzzTheme(themeName)) {
@@ -408,6 +468,7 @@ function applyCachedVars(): string | null {
     root.classList.remove("light", "dark");
     root.classList.add(isDark ? "dark" : "light");
     applyBuzzSidebar(themeName);
+    applyFrankTheme(themeName);
 
     const accent =
       window.localStorage.getItem(ACCENT_STORAGE_KEY) ?? DEFAULT_ACCENT;
@@ -434,11 +495,23 @@ async function applyTheme(
   if (requestToken !== themeApplyRequest) return null;
 
   const info = extractThemeInfo(name, themeData);
-  const { isDark, vars } = createThemeVars(info.bg, info.fg, info.comment, {
-    added: info.added,
-    deleted: info.deleted,
-    modified: info.modified,
-  });
+  const { isDark, vars: derivedVars } = createThemeVars(
+    info.bg,
+    info.fg,
+    info.comment,
+    {
+      added: info.added,
+      deleted: info.deleted,
+      modified: info.modified,
+    },
+  );
+
+  // frank talk carries an explicit brand palette rather than one derived from
+  // a syntax theme's three key colours. Layer it *over* the derived set so any
+  // token the brand does not speak to (chart colours, for instance) still has
+  // a coherent value instead of being left at the previous theme's.
+  const frankVars = getFrankVars(name);
+  const vars = frankVars ? { ...derivedVars, ...frankVars } : derivedVars;
 
   const root = document.documentElement;
   for (const [key, value] of Object.entries(vars)) {
@@ -448,6 +521,7 @@ async function applyTheme(
   root.classList.remove("light", "dark");
   root.classList.add(isDark ? "dark" : "light");
   applyBuzzSidebar(name);
+  applyFrankTheme(name);
   // The Buzz gradient vars are now installed. If the vibrancy layer already
   // resolved for the current request (the IPC won the race against this theme
   // load), enable translucency now — otherwise applyBuzzVibrancy does it. This
@@ -482,7 +556,7 @@ async function applyTheme(
 
 export function ThemeProvider({
   children,
-  defaultTheme = "buzz",
+  defaultTheme = "frank-dark",
 }: ThemeProviderProps) {
   // Apply cached vars synchronously before first render
   const [selectedTheme, setSelectedTheme] = useState<string>(() => {
@@ -500,10 +574,14 @@ export function ThemeProvider({
   const [followSystem, setFollowSystemState] = useState<boolean>(() => {
     const stored = window.localStorage.getItem(FOLLOW_SYSTEM_KEY);
     if (stored !== null) return stored === "true";
-    // Fresh profiles (no saved theme) default to System mode so the Buzz
-    // default tracks the OS light/dark scheme. Profiles that picked a theme
-    // before this toggle existed keep their fixed theme until they opt in.
-    return window.localStorage.getItem(THEME_STORAGE_KEY) === null;
+    // Fresh profiles do NOT follow the OS. frank talk ships dark, and letting a
+    // fresh install track the system scheme would hand a light-mode machine the
+    // light theme instead — the brand default would then depend on the OS rather
+    // than on us. Users can still switch to Light or System in Appearance
+    // settings, and that choice is what gets persisted here.
+    //
+    // Profiles that already picked a theme keep whatever they chose.
+    return false;
   });
   const [systemIsDark, setSystemIsDark] = useState<boolean>(() => {
     return window.matchMedia("(prefers-color-scheme: dark)").matches;

@@ -1,11 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* Brand @font-face declarations — must precede any rule that sets a family. */
+@import "./globals/fonts.css";
 @import "./globals/scrollbars.css";
 @import "./globals/motion.css";
 @import "./globals/animations.css";
 @import "./globals/composer.css";
 @import "./globals/markdown.css";
 @import "./globals/theme.css";
+@import "./globals/frank.css";
 @import "./globals/skeleton.css";
 @import "./globals/spoilers.css";
 @import "./globals/components.css";

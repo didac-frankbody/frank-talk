@@ -1,0 +1,7 @@
+# Licensed Klim Type Foundry faces — never commit these to a public repo.
+# See README.md in this directory.
+*.woff
+*.woff2
+*.otf
+*.ttf
+*.eot

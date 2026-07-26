@@ -956,7 +956,9 @@ test("thread panel width uses session storage and reset handle", async ({
   page,
 }) => {
   const customWidthPx = 520;
-  const defaultWidthPx = 380;
+  // Mirrors AUXILIARY_PANEL_DEFAULT_WIDTH_PX in shared/layout/auxiliaryPanelLayout.ts
+  // — 372px, the frank talk thread-panel width from the design handoff.
+  const defaultWidthPx = 372;
 
   await page.addInitScript((width) => {
     window.sessionStorage.setItem(
@@ -1020,7 +1022,12 @@ test("thread panel width uses session storage and reset handle", async ({
 test("narrow thread view collapses channel header actions into a menu", async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 980, height: 720 });
+  // Wide enough that the thread panel still opens beside the timeline rather
+  // than replacing it: the split view needs MAIN_PANE_MIN + AUXILIARY_PANEL_MIN
+  // (460 + 280 = 740) of content width, plus ~300px of sidebar and rail. Below
+  // that the shell drops to a single panel and grows a back button, which is a
+  // different case from the one under test here.
+  await page.setViewportSize({ width: 1100, height: 720 });
 
   await page.goto("/");
   await page.getByTestId("channel-general").click();

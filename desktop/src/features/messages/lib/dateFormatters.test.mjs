@@ -13,12 +13,16 @@ function localUnixSeconds(year, monthIndex, day) {
   return new Date(year, monthIndex, day, 12).getTime() / 1_000;
 }
 
-function weekday(date) {
-  return new Intl.DateTimeFormat("en-US", { weekday: "long" }).format(date);
+function shortWeekday(date) {
+  return new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(date);
 }
 
-function month(date) {
-  return new Intl.DateTimeFormat("en-US", { month: "long" }).format(date);
+function absoluteDay(date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
 }
 
 test("formatShortMonthDayOrdinal formats month before ordinal day", () => {
@@ -115,24 +119,37 @@ test("formatThreadSummaryLastReplyTime uses ordinal dates for older replies", ()
   assert.equal(formatThreadSummaryLastReplyTime(replyAt, now), "on May 19th");
 });
 
-test("formatDayHeading omits the year for current-year dates", () => {
+test("formatDayHeading labels today and yesterday relatively", () => {
   const now = new Date();
-  const date = new Date(now.getFullYear(), (now.getMonth() + 6) % 12, 19, 12);
+  assert.equal(formatDayHeading(now.getTime() / 1_000), "Today");
 
-  assert.equal(
-    formatDayHeading(date.getTime() / 1_000),
-    `${weekday(date)}, ${month(date)} 19th`,
-  );
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  yesterday.setHours(12, 0, 0, 0);
+  assert.equal(formatDayHeading(yesterday.getTime() / 1_000), "Yesterday");
 });
 
-test("formatDayHeading includes the year for other years", () => {
-  const year = new Date().getFullYear() - 1;
-  const date = new Date(year, 4, 19, 12);
+test("formatDayHeading uses a short weekday inside the last week", () => {
+  const date = new Date();
+  date.setDate(date.getDate() - 3);
+  date.setHours(12, 0, 0, 0);
 
-  assert.equal(
-    formatDayHeading(date.getTime() / 1_000),
-    `${weekday(date)}, May 19th, ${year}`,
-  );
+  assert.equal(formatDayHeading(date.getTime() / 1_000), shortWeekday(date));
+});
+
+test("formatDayHeading switches to an absolute day beyond a week", () => {
+  // 7 days is outside the relative window, so this is the boundary case.
+  const date = new Date();
+  date.setDate(date.getDate() - 7);
+  date.setHours(12, 0, 0, 0);
+
+  assert.equal(formatDayHeading(date.getTime() / 1_000), absoluteDay(date));
+});
+
+test("formatDayHeading writes older dates as day-month-year, never ISO", () => {
+  const date = new Date(2026, 2, 12, 12);
+
+  assert.equal(formatDayHeading(date.getTime() / 1_000), "12 Mar 2026");
 });
 
 test("startOfLocalDaySeconds collapses a day's timestamps to one value", () => {

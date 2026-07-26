@@ -108,7 +108,12 @@ export function AppSidebarPrimaryMenu({
           </SidebarMenuButton>
           {homeBadgeCount > 0 ? (
             <SidebarMenuBadge
-              className="right-2 rounded-full bg-primary/15 px-1.5 text-2xs text-primary peer-data-[active=true]/menu-button:bg-sidebar-active-foreground/20 peer-data-[active=true]/menu-button:text-sidebar-active-foreground"
+              // Ink type on a solid brand fill, never tinted brand type: under
+              // the frank theme `--primary` is Original Pink, which is a
+              // background-only colour. Counts use `font-display` (Pitch) so
+              // they read as brand numerals, with tabular figures so the badge
+              // does not jitter as the count changes.
+              className="right-2 rounded-full bg-primary px-1.5 font-display text-2xs tabular-nums text-primary-foreground peer-data-[active=true]/menu-button:bg-sidebar-active-foreground/20 peer-data-[active=true]/menu-button:text-sidebar-active-foreground"
               data-testid="sidebar-home-count"
             >
               {Math.min(homeBadgeCount, 99)}

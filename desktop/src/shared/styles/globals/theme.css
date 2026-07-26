@@ -150,9 +150,18 @@
     color-scheme: dark;
   }
 
+  /*
+   * Founders Grotesk Text carries all body and UI copy (see
+   * `globals/fonts.css`). The family is set here; the weight deliberately is
+   * NOT. The brand default for long-form body copy is Light 300, but this app
+   * is overwhelmingly small 14px UI chrome, where the brand's own guidance is
+   * to use 400–600 because 300 goes too faint on screen. Pinning `body` to 300
+   * would thin every unstyled label in the app at once. Message body copy opts
+   * into `font-light` at its own call site instead.
+   */
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: "Inter Variable", Inter, "Avenir Next", "Segoe UI", sans-serif;
+    font-family: "Founders Grotesk", ui-sans-serif, system-ui, sans-serif;
   }
 
   /*
@@ -337,7 +346,7 @@
 :root[data-buzz-sidebar]
   .group\/sidebar-wrapper
   .bg-sidebar:not([data-buzz-flat]),
-:root[data-buzz-sidebar] [data-testid="community-rail"].bg-sidebar,
+:root[data-buzz-sidebar] [data-testid="community-rail"].bg-sidebar-rail,
 :root[data-buzz-sidebar]
   [data-testid="app-sidebar"]
   [data-testid="sidebar-pinned-header"],

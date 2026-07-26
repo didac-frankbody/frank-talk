@@ -38,26 +38,57 @@ export const BUZZ_BASE_THEME: SyntaxThemeName = "github-light";
 export const BUZZ_DARK_BASE_THEME: SyntaxThemeName = "github-dark";
 
 /**
+ * frank talk theme name. The frank body re-skin: ink shell, Original Pink
+ * accents, Pitch + Founders Grotesk. Unlike Buzz — which reuses GitHub
+ * Light wholesale and only repaints the sidebar — frank talk replaces the
+ * entire token set from an explicit brand palette
+ * (`frank-theme.ts` → `FRANK_LIGHT_VARS`), applied by {@link ThemeProvider}
+ * over the derived vars.
+ */
+export const FRANK_THEME_NAME = "frank";
+
+/** frank talk (dark). See `frank-theme.ts` → `FRANK_DARK_VARS`. */
+export const FRANK_DARK_THEME_NAME = "frank-dark";
+
+/**
+ * The Shiki bundle frank talk borrows its *code-block* palette from.
+ *
+ * Only fenced code blocks read this — every surface colour comes from the
+ * brand token map instead. It still matters that the light/dark polarity
+ * matches, because `createThemeVars()` derives `isDark` from this theme's
+ * background luminance, and that decides whether the `.dark` class lands.
+ */
+export const FRANK_BASE_THEME: SyntaxThemeName = "github-light";
+
+/** The Shiki bundle frank talk (dark) borrows its code-block palette from. */
+export const FRANK_DARK_BASE_THEME: SyntaxThemeName = "github-dark";
+
+/**
  * Resolve a theme name to the real Shiki bundled theme it maps to.
  *
- * Most themes map to themselves, but the Buzz aliases (`buzz` / `buzz-dark`)
- * are not bundled Shiki themes — they reuse the GitHub Light / GitHub Dark
- * palettes. The Shiki highlighter engine (used for fenced code blocks in
- * `CodeBlock.tsx`) only understands bundled names, so callers that hand a
- * theme name to `loadTheme` / `codeToTokens` must resolve it through here
- * first; passing a raw Buzz alias makes Shiki throw and code blocks fall
- * back to unhighlighted plain text.
+ * Most themes map to themselves, but the first-party aliases (`buzz` /
+ * `buzz-dark`, `frank` / `frank-dark`) are not bundled Shiki themes — they
+ * reuse the GitHub Light / GitHub Dark palettes. The Shiki highlighter engine
+ * (used for fenced code blocks in `CodeBlock.tsx`) only understands bundled
+ * names, so callers that hand a theme name to `loadTheme` / `codeToTokens`
+ * must resolve it through here first; passing a raw alias makes Shiki throw
+ * and code blocks fall back to unhighlighted plain text.
  */
 export function resolveShikiThemeName(name: string): SyntaxThemeName {
   if (name === BUZZ_THEME_NAME) return BUZZ_BASE_THEME;
   if (name === BUZZ_DARK_THEME_NAME) return BUZZ_DARK_BASE_THEME;
+  if (name === FRANK_THEME_NAME) return FRANK_BASE_THEME;
+  if (name === FRANK_DARK_THEME_NAME) return FRANK_DARK_BASE_THEME;
   return name as SyntaxThemeName;
 }
 
-// Available themes. "buzz" is a Buzz-branded theme that reuses the
-// github-light palette plus a sidebar gradient; the rest are the Shiki
-// bundled syntax themes, alphabetically sorted.
+// Available themes. "frank" / "frank-dark" are the frank talk brand themes and
+// lead the list — they are the app's own identity. "buzz" is the upstream
+// Buzz-branded theme (github-light palette plus a sidebar gradient); the rest
+// are the Shiki bundled syntax themes, alphabetically sorted.
 export const SYNTAX_THEMES = [
+  "frank",
+  "frank-dark",
   "buzz",
   "buzz-dark",
   "andromeeda",
@@ -127,6 +158,7 @@ export type SyntaxThemeName = (typeof SYNTAX_THEMES)[number];
 // Known light themes — used by the theme picker to show sun/moon icons
 // for themes that haven't been loaded yet.
 export const LIGHT_THEMES: ReadonlySet<SyntaxThemeName> = new Set([
+  "frank",
   "buzz",
   "catppuccin-latte",
   "everforest-light",
@@ -153,6 +185,11 @@ const themeImports: Record<
   SyntaxThemeName,
   () => Promise<{ default: ThemeRegistrationRaw }>
 > = {
+  // frank talk borrows github-light/github-dark for fenced code blocks only;
+  // every surface colour is replaced from the brand token map. The light/dark
+  // polarity here is what drives `isDark`, so it must match the variant.
+  frank: () => import("shiki/themes/github-light.mjs"),
+  "frank-dark": () => import("shiki/themes/github-dark.mjs"),
   // Buzz reuses the github-light palette; its gradient is applied separately.
   buzz: () => import("shiki/themes/github-light.mjs"),
   // Buzz Dark reuses the github-dark palette; dark gradient applied separately.
@@ -235,7 +272,9 @@ export function isLightTheme(name: string): boolean {
 export const THEME_PAIRS: ReadonlyMap<SyntaxThemeName, SyntaxThemeName> =
   new Map([
     // Light → Dark
-    // Buzz is the first-party pair; keep it first so it leads every category.
+    // frank talk is the app's own pair; keep it first so it leads every
+    // category. Buzz follows as the upstream first-party pair.
+    ["frank", "frank-dark"],
     ["buzz", "buzz-dark"],
     ["catppuccin-latte", "catppuccin-mocha"],
     ["everforest-light", "everforest-dark"],
@@ -255,6 +294,7 @@ export const THEME_PAIRS: ReadonlyMap<SyntaxThemeName, SyntaxThemeName> =
     ["solarized-light", "solarized-dark"],
     ["vitesse-light", "vitesse-dark"],
     // Dark → Light (reverse mappings)
+    ["frank-dark", "frank"],
     ["buzz-dark", "buzz"],
     ["catppuccin-mocha", "catppuccin-latte"],
     ["everforest-dark", "everforest-light"],

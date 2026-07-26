@@ -187,7 +187,7 @@ function PairingDialog({
                 ? "Verify the security code matches your mobile device."
                 : step === "done"
                   ? "Your mobile device is now paired."
-                  : "Scan this QR code with the Buzz mobile app to securely pair."}
+                  : "Scan this QR code with the frank talk mobile app to securely pair."}
             </DialogDescription>
           </DialogHeader>
 

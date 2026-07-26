@@ -14,6 +14,14 @@ export default defineConfig({
     screenshot: "only-on-failure",
     trace: "on-first-retry",
     video: "retain-on-failure",
+    // `BUZZ_CHROMIUM_PATH` points the launcher at an already-installed Chromium.
+    // Container and CI images often ship a browser whose build number does not
+    // match the pinned `@playwright/test`; Playwright then refuses to launch and
+    // asks you to download one, which such images deliberately disallow. Unset,
+    // behaviour is unchanged. Mirrors the same hatch in tests/helpers/screenshot.mjs.
+    ...(process.env.BUZZ_CHROMIUM_PATH
+      ? { launchOptions: { executablePath: process.env.BUZZ_CHROMIUM_PATH } }
+      : {}),
   },
   projects: [
     {

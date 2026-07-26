@@ -123,6 +123,11 @@ export function AgentSnapshotCard({
   return (
     <Attachment
       className="my-1 inline-flex w-fit max-w-full shadow-none"
+      // The brand's hero-card frame (white, hairline ink border, 5px Original
+      // Pink left rule). Set on this instance only — `Attachment` is shared with
+      // file and image attachments, which are not agent surfaces. Styled in
+      // `globals/frank.css`, so every other theme renders the stock card.
+      data-frank-hero-card=""
       data-testid="agent-snapshot-card"
       state={importState.phase === "error" ? "error" : "done"}
     >

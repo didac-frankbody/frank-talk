@@ -47,7 +47,7 @@ import {
 } from "@/shared/ui/dropdown-menu";
 import {
   ACCENT_COLORS,
-  isBuzzTheme,
+  isAccentPinnedTheme,
   NEUTRAL_ACCENT,
   useTheme,
 } from "@/shared/theme/ThemeProvider";
@@ -233,7 +233,30 @@ export const settingsSections: SettingsSectionDescriptor[] = [
   },
 ];
 
-function formatThemeLabel(name: string): string {
+/**
+ * Display names for themes whose id does not title-case into the label we want.
+ *
+ * The generic path below splits on "-" and capitalises each word, which is right
+ * for the Shiki bundles ("rose-pine" → "Rose Pine") but wrong for the two
+ * first-party pairs:
+ *
+ * - the brand is always lowercase, so `frank` must not render as "Frank";
+ * - the upstream pair's ids are historical, and its label should not put the old
+ *   product name in front of users.
+ *
+ * Keyed on the theme id, which is a persisted value and deliberately unchanged —
+ * renaming ids would invalidate every saved preference.
+ */
+const THEME_DISPLAY_NAMES: Readonly<Record<string, string>> = {
+  frank: "frank talk",
+  "frank-dark": "frank talk dark",
+  buzz: "Classic",
+  "buzz-dark": "Classic Dark",
+};
+
+export function formatThemeLabel(name: string): string {
+  const override = THEME_DISPLAY_NAMES[name];
+  if (override) return override;
   return name
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -246,7 +269,7 @@ function formatThemeLabel(name: string): string {
  * from any position, handling names like "github-light-default", "light-plus",
  * "material-theme-lighter", and "gruvbox-light-soft".
  */
-function pairedThemeLabel(lightName: string): string {
+export function pairedThemeLabel(lightName: string): string {
   const modeTokens = new Set([
     "light",
     "latte",
@@ -421,10 +444,12 @@ function ThemeSettingsCard() {
     setFollowSystem,
   } = useTheme();
 
-  // Buzz themes pin a neutral accent (GitHub black in light, white in dark),
-  // so the accent picker is hidden while a Buzz theme is active. `themeName` is
-  // the effective theme, so this also covers System mode resolving to Buzz.
-  const accentPickerHidden = isBuzzTheme(themeName);
+  // Some themes ship a fixed accent, so the picker is hidden while one is
+  // active: the upstream pair pins a neutral (black in light, white in dark),
+  // and frank talk pins Original Pink — letting a user swatch through would
+  // repaint every pink fill off-brand. `themeName` is the effective theme, so
+  // this also covers System mode resolving to one of them.
+  const accentPickerHidden = isAccentPinnedTheme(themeName);
   const shouldReduceMotion = useReducedMotion();
 
   const previewVarsByTheme = useThemePreviewVars();
