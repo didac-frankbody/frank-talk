@@ -1,21 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="frank talk">
   <!--
-    PLACEHOLDER MARK.
+    Square reduction of the supplied frank talk wordmark, for the favicon and
+    other tiny square slots.
 
-    frank body has no approved logo asset for the "frank talk" sub-brand, and the
-    brand guidelines are explicit that an approved asset always beats a
-    recreation. The design handoff says as much: "App icon / favicon still need
-    producing from the frank talk mark."
+    The wordmark itself is 4.36:1 — at 16px wide it would be under 4px tall and
+    unreadable — so this keeps the logo's structure (one rounded block split into
+    a dark field and a pale field) without its type. Colours are sampled from the
+    supplied asset (`#2A2A2A` / `#F8E6E6`) so the two read as the same mark.
 
-    This abstracts the in-app wordmark — the [frank][talk] capsule pair (outlined
-    over filled) — into two stacked bars, because the real two-word wordmark is
-    illegible at 16px. Pure vector shapes, no font dependency, so it renders
-    without the licensed Pitch face installed.
-
-    Replace this with the real asset when design supplies it, and regenerate
-    src-tauri/icons/* from the same source.
+    The full wordmark lives at public/frank-talk-wordmark.png and is what
+    FrankWordmark renders wherever there is horizontal room.
   -->
-  <rect width="32" height="32" rx="7" fill="#3F2A2D"/>
-  <rect x="6" y="7" width="20" height="8" rx="2.5" fill="none" stroke="#FFFBFA" stroke-width="1.75"/>
-  <rect x="6" y="18" width="20" height="8" rx="2.5" fill="#FFB6A5"/>
+  <rect width="32" height="32" rx="7" fill="#F8E6E6"/>
+  <path d="M7 0h9v32H7A7 7 0 0 1 0 25V7a7 7 0 0 1 7-7z" fill="#2A2A2A"/>
+  <rect x="4" y="14.5" width="8" height="3" rx="1.5" fill="#F8E6E6"/>
+  <rect x="19" y="14.5" width="9" height="3" rx="1.5" fill="#2A2A2A"/>
 </svg>

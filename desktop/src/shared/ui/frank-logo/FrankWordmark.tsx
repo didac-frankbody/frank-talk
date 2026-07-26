@@ -1,43 +1,41 @@
 import { cn } from "@/shared/lib/cn";
 
+/** The supplied frank talk wordmark, served from `public/`. */
+const WORDMARK_SRC = "/frank-talk-wordmark.png";
+
+/** Intrinsic size of the supplied asset, used to reserve layout space. */
+const WORDMARK_WIDTH = 872;
+const WORDMARK_HEIGHT = 200;
+
 /**
- * The frank talk wordmark: two capsules reading `frank` `talk`.
+ * The frank talk wordmark.
  *
- * The brand has no supplied logo asset for in-app sub-brand marks, so the
- * design system specifies this capsule-pair pattern instead (design.md §4):
- * `frank` outlined, the module name filled. Rendered in CSS rather than as an
- * image so it inherits the theme's ink/pink tokens and stays crisp at any zoom.
+ * This renders the **supplied logo asset** rather than recreating it in CSS —
+ * the brand guidelines are explicit that an approved asset always wins over a
+ * recreation, and this one came from the brand owner. Replacing the file at
+ * `desktop/public/frank-talk-wordmark.png` updates the logo everywhere it
+ * appears; no component changes needed.
  *
- * If frank body ever supplies an approved `frank talk` logo file, replace this
- * component's internals with it — the brand guidelines say an approved asset
- * always wins over a recreation.
+ * Note the asset carries its own colours (`#2A2A2A` block, `#F8E6E6` field) and
+ * is deliberately NOT tinted by the theme — a logo is not a themed surface. It
+ * therefore looks the same in frank light and frank dark, which is what a
+ * wordmark should do.
+ *
+ * `width`/`height` are set to the intrinsic pixel size so the browser reserves
+ * the right box before the image decodes and the logo zone does not reflow on
+ * load.
  */
 export function FrankWordmark({ className }: { className?: string }) {
   return (
-    <div
-      aria-label="frank talk"
-      className={cn("flex w-full items-stretch gap-1.5", className)}
-      role="img"
-    >
-      <span
-        className={cn(
-          "flex flex-1 items-center justify-center rounded-md border-2 py-1",
-          "border-sidebar-foreground text-sidebar-foreground",
-          "font-display text-wordmark font-semibold lowercase tracking-[0.04em]",
-        )}
-      >
-        frank
-      </span>
-      <span
-        className={cn(
-          "flex flex-1 items-center justify-center rounded-md py-1",
-          "bg-sidebar-primary text-sidebar-primary-foreground",
-          "font-display text-wordmark font-semibold lowercase tracking-[0.04em]",
-        )}
-      >
-        talk
-      </span>
-    </div>
+    <img
+      alt="frank talk"
+      className={cn("block h-auto w-full select-none", className)}
+      data-testid="frank-wordmark"
+      draggable={false}
+      height={WORDMARK_HEIGHT}
+      src={WORDMARK_SRC}
+      width={WORDMARK_WIDTH}
+    />
   );
 }
 
@@ -54,7 +52,7 @@ export function FrankLogoZone({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex h-[5.5rem] shrink-0 flex-col justify-center gap-1.5 px-4",
+        "flex h-[5.5rem] shrink-0 flex-col justify-center gap-2 px-4",
         className,
       )}
       data-frank-logo-zone=""

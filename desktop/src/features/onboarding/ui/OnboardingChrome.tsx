@@ -1,4 +1,4 @@
-import { BuzzMark } from "@/shared/ui/buzz-logo/BuzzMark";
+import { FrankWordmark } from "@/shared/ui/frank-logo/FrankWordmark";
 
 /**
  * Positions in the first-launch flow: landing, identity/key, harness setup,
@@ -52,8 +52,10 @@ export function OnboardingChrome({
       aria-hidden
       className="pointer-events-none fixed inset-x-0 top-12 z-10 flex items-center px-6 text-foreground"
     >
-      <span className="block w-11" data-testid="onboarding-logo">
-        <BuzzMark className="h-auto w-full" />
+      {/* Widened from w-11: the wordmark is 4.36:1, so the old square-mark
+          slot would have rendered it ~10px tall. */}
+      <span className="block w-32" data-testid="onboarding-logo">
+        <FrankWordmark />
       </span>
       <div
         className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2"
