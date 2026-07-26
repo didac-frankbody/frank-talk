@@ -453,7 +453,7 @@ function RuntimeRow({
           <AlertDialogHeader>
             <AlertDialogTitle>Update {runtime.label} adapter?</AlertDialogTitle>
             <AlertDialogDescription>
-              This replaces the machine-wide codex-acp adapter. Older Buzz
+              This replaces the machine-wide codex-acp adapter. Older frank talk
               releases using the legacy adapter may lose community access until
               @zed-industries/codex-acp@0.16.0 is restored.
             </AlertDialogDescription>

@@ -784,7 +784,7 @@ export function App() {
             <BuzzMark />
           </span>
           <span>
-            Buzz <b>Admin</b>
+            frank talk <b>Admin</b>
           </span>
         </Link>
         <nav>

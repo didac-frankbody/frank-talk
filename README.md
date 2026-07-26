@@ -1,7 +1,7 @@
-<h1 align="center">Buzz 🐝</h1>
+<h1 align="center">frank talk</h1>
 
 <p align="center">
-  <strong>A workspace where humans and agents build together, on a relay you own.</strong>
+  <strong>the internal chat — a workspace where the team and its agents work in the same room, on a relay you own.</strong>
 </p>
 
 <p align="center">
@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/assets/screenshots/channel-thread.png" alt="A Buzz project channel where people and an agent coordinate on a release plan" width="100%">
+  <img src="docs/assets/screenshots/ft-01-hero.png" alt="The frank talk desktop app: an ink sidebar with the frank talk wordmark, a channel list, and a message timeline with an unread divider" width="100%">
 </p>
 
 <p align="center">
@@ -25,29 +25,25 @@
 
 ## What is this, really?
 
-Buzz is a self-hostable workspace where humans and AI agents share the same rooms.
+frank talk is frank body's internal chat — a self-hostable workspace where people and AI agents share the same rooms. It's a re-skin of [block/buzz](https://github.com/block/buzz), which remains the upstream project.
 
-A Buzz **community** is the workspace a user reaches by URL. In the single-relay
-setup that ships today, the relay URL selects exactly one community. A hosted
-operator can serve many communities behind many domains or subdomains, but the
-client-facing rule stays the same: the URL is authoritative for the workspace,
-and all tenant-observable state under that URL is community-local.
+A **community** is the workspace you reach by URL. In the single-relay setup that ships today, the relay URL selects exactly one community. A hosted operator can serve many communities behind many domains, but the client-facing rule stays the same: the URL is authoritative for the workspace, and all tenant-observable state under that URL is community-local.
 
-It's a Nostr relay: every message, reaction, workflow step, review approval, and git event is a signed event in one log. Same shape, same identity model, same audit trail, whether the author is a person or a process.
+Underneath it's a Nostr relay: every message, reaction, workflow step, review approval, and git event is a signed event in one log. Same shape, same identity model, same audit trail, whether the author is a person or a process.
 
 In practice it feels like a team workspace. Under the hood it's an event log with taste and a suspicious number of Rust crates.
 
-Yes, it's another AI-adjacent developer tool. We're sorry. The difference is what agents can actually *do* once they're inside: open repos, send patches, review code, run workflows, edit canvases, orchestrate other agents, drop into voice huddles, create channels, and pull in whoever needs to see it. The same affordances as a human teammate, the same audit trail, a different keypair.
+The difference from every other AI-adjacent tool is what agents can actually *do* once they're inside: open repos, send patches, review code, run workflows, edit canvases, orchestrate other agents, drop into voice huddles, create channels, and pull in whoever needs to see it. The same affordances as a human teammate, the same audit trail, a different keypair.
 
 ---
 
-## Stuff you do in Buzz
+## Stuff you do in frank talk
 
 - **Ask the project a question and get an answer with receipts.** Agents search six months of history and post the threads, not vibes.
 - **Let an agent triage a bug without giving it the keys to the kingdom.** Agents have their own keys, their own channel memberships, and their own audit trail. Scoped by identity, not by permission flags — the same way you'd scope a teammate.
 - **Turn a feature branch into a room** where patches, CI, review, and the merge decision live together — so the channel becomes the record of why the code exists.
 - **Search the conversation, the patch, the workflow run, and the approval in one place** — because they're all the same kind of event.
-- **Let an agent run the workspace, not just talk in it.** Channels, canvases, workflows, huddles — agents have the same surface area as humans, with their own keys and their own audit trail.
+- **Let an agent run the workspace, not just talk in it.** Channels, canvases, workflows, huddles — agents have the same surface area as humans.
 
 ---
 
@@ -56,25 +52,27 @@ Yes, it's another AI-adjacent developer tool. We're sorry. The difference is wha
 <table>
   <tr>
     <td width="50%" valign="top">
-      <img src="docs/assets/screenshots/channel-agents.png" alt="People and agents collaborating in a Buzz engineering channel and reacting with emoji" width="100%"><br>
-      <sub><strong>Agents are members, not bots.</strong> Add an agent to a channel the same way you add a person.</sub>
+      <img src="docs/assets/screenshots/ft-03-inbox.png" alt="The frank talk inbox listing mentions and channel updates beside an open thread" width="100%"><br>
+      <sub><strong>One inbox for everything addressed to you.</strong> Mentions, thread replies, and things needing action — with the thread open beside it.</sub>
     </td>
     <td width="50%" valign="top">
-      <img src="docs/assets/screenshots/create-channel.png" alt="The Add a channel dialog with search, filters, and channels to join or create" width="100%"><br>
-      <sub><strong>Spin up a room in seconds.</strong> Name it, describe it, make it private.</sub>
+      <img src="docs/assets/screenshots/ft-04-browser.png" alt="The Browse channels dialog with a search field, All/Joined/Archived tabs, and a create-a-channel row" width="100%"><br>
+      <sub><strong>Spin up a room in seconds.</strong> Search what exists, or create it from the same field.</sub>
     </td>
   </tr>
   <tr>
     <td colspan="2" valign="top">
-      <img src="docs/assets/screenshots/media-comments.png" alt="A video playing in Buzz with frame-anchored comments in a side panel" width="100%"><br>
-      <sub><strong>Media you can talk about.</strong> Leave comments pinned to specific frames.</sub>
+      <img src="docs/assets/screenshots/ft-02-light.png" alt="The same frank talk channel view in the light theme, with an off-white message surface against the ink sidebar" width="100%"><br>
+      <sub><strong>Dark by default, light when you want it.</strong> Both are the brand theme — switch in Settings → Appearance, or follow your system.</sub>
     </td>
   </tr>
 </table>
 
+<sub>Screenshots are the real app, captured from the desktop client's mock harness in Pitch and Founders Grotesk. See <a href="#brand-type">Brand type</a> if yours renders in a system sans.</sub>
+
 ---
 
-## Why Buzz is better
+## Why this shape
 
 One community. One identity model. One event log. Humans, agents, workflows, and repos all speak the same protocol, sign with the same kind of key, and end up in the same search index. In the default self-hosted deployment, one relay hosts one community; in a hosted multi-tenant deployment, each community keeps that same semantic boundary even when the backend shares Postgres, Redis, and object storage.
 
@@ -99,7 +97,7 @@ Agents are part of the room, not haunted cron jobs.
 | ✅ Works today | 🚧 Being wired up | 💭 Strong opinions, pending code |
 |---|---|---|
 | Relay, channels, threads, DMs, canvases, media, search, audit log | Mobile clients (iOS + Android, Flutter) | Web-of-trust reputation across relays |
-| Desktop app (Tauri + React) | Workflow approval gates (infra exists, glue still drying) | Push notifications |
+| Desktop app (Tauri + React), frank talk themed | Workflow approval gates (infra exists, glue still drying) | Push notifications |
 | `buzz-cli` (agent-first, JSON in / JSON out) + ACP harness (Goose, Codex, Claude Code) | Huddle lifecycle events | Culture features |
 | YAML workflows: message / reaction / schedule / webhook triggers | | |
 | Git events (NIP-34: patches, repo announcements, status) | | |
@@ -111,23 +109,13 @@ Agents are part of the room, not haunted cron jobs.
 
 ## Getting started
 
-New to Buzz? Pick the path that matches you.
-
-### I just want to try the app
-
-Grab a packaged build from the [latest release](https://github.com/block/buzz/releases/latest) — macOS (`.dmg`), Linux (`.AppImage` / `.deb`), or Windows (`.exe`). Install it like any other app.
-
-By default the app connects to `ws://localhost:3000`. To point it at a relay you're running or one someone shared with you, set `BUZZ_RELAY_URL` before launching, or switch the relay from inside the app. If you don't have a relay yet, follow **Build & run from source** below to stand one up locally.
-
-### I work at Block
-
-Don't build from source, and don't use the OSS release — use the internal build. It comes pre-wired to the Block relay and agent provider, so it works out of the box with nothing to configure.
-
-Download the latest build from [`squareup/buzz-releases` releases](https://github.com/squareup/buzz-releases/releases/latest) and install it.
-
 ### I want to build & run from source
 
-See **Quick start** below — this is the developer / self-host path.
+See **Quick start** below. This is the path that works today for this fork.
+
+### I just want a packaged build
+
+This fork does not publish releases yet. Upstream builds exist at [block/buzz releases](https://github.com/block/buzz/releases/latest), but they are Buzz-branded and do not include this re-skin — build from source for frank talk.
 
 ---
 
@@ -137,26 +125,41 @@ You'll need [Docker](https://docs.docker.com/get-docker/) and [Hermit](https://c
 
 **Once:**
 ```bash
-git clone https://github.com/block/buzz.git && cd buzz
+git clone https://github.com/didac-frankbody/frank-talk.git && cd frank-talk
 . ./bin/activate-hermit   # pinned toolchain (tools auto-download on first use)
 just setup && just build
 ```
 
-`just setup` runs `just bootstrap` automatically — it copies `.env.example` to `.env` if needed, downloads all required tools via Hermit, and starts Docker services + migrations.
+`just setup` copies `.env.example` to `.env` if needed, downloads the tools via Hermit, and starts Docker services + migrations.
 
-**Every day:**
+**Every day** — two terminals:
 ```bash
 . ./bin/activate-hermit
-just dev   # starts the relay + desktop app together
+just relay        # terminal 1: relay on ws://localhost:3000
+just desktop-dev  # terminal 2: frontend dev server
 ```
 
-Relay on `ws://localhost:3000`. Desktop app pops up. You're in.
+For the native shell instead of the browser dev server, run `pnpm tauri dev` from `desktop/`.
 
-For a split-terminal workflow (relay logs separate from Vite output), use `just relay` in one terminal and `just desktop-dev` in another.
-
-Want a single-node / VPS relay instead of the local-dev stack? Use the production Compose bundle in [`deploy/compose/`](deploy/compose/README.md) (`docker compose` + Postgres, Redis, MinIO, optional Caddy/TLS). The root [`docker-compose.yml`](docker-compose.yml) is for day-to-day development only.
+Want a single-node / VPS relay instead of the local-dev stack? Use the production Compose bundle in [`deploy/compose/`](deploy/compose/README.md) (Postgres, Redis, MinIO, optional Caddy/TLS). The root [`docker-compose.yml`](docker-compose.yml) is for day-to-day development only.
 
 For agents, set `BUZZ_PRIVATE_KEY` and use [`buzz-cli`](crates/buzz-cli) — JSON in, JSON out, designed for LLM tool calls.
+
+---
+
+## Brand type
+
+frank talk is set in **Pitch Semibold** (wordmark, channel names, numbers) and **Founders Grotesk Text** (everything else). Both are licensed Klim Type Foundry faces, so **the font files are not committed to this repository** — it is a public fork, and committing them would redistribute them.
+
+The `@font-face` pipeline is wired end to end. Drop the 14 supplied files into [`desktop/public/fonts/`](desktop/public/fonts/README.md) and the app picks them up on the next dev-server start. Until then the stacks fall through to a system sans and a monospace stand-in for Pitch: everything works, it just isn't on brand. That directory has a `.gitignore` so the binaries can't be committed by accident.
+
+---
+
+## Theme
+
+`frank-dark` is the default on a fresh install. Light (`frank`) and System are in **Settings → Appearance**, alongside the other bundled themes.
+
+Fresh profiles deliberately do not follow the OS — dark is the brand default, and it shouldn't depend on which machine you opened it on. Once you pick Light or System, that choice is remembered.
 
 ---
 
@@ -164,9 +167,9 @@ For agents, set `BUZZ_PRIVATE_KEY` and use [`buzz-cli`](crates/buzz-cli) — JSO
 
 The agent shell tool runs commands under bash. On macOS and Linux that's already there; on Windows you need to bring it.
 
-Install [Git for Windows](https://git-scm.com/download/win) — it ships Git Bash, which is what buzz resolves at runtime. Once it's installed, everything works the same as on other platforms.
+Install [Git for Windows](https://git-scm.com/download/win) — it ships Git Bash, which is what the app resolves at runtime. Once it's installed, everything works the same as on other platforms.
 
-If you'd rather point buzz at a different bash-compatible shell, set `BUZZ_SHELL` to its path (e.g. `BUZZ_SHELL=C:\path\to\bash.exe`). The agent's tool description updates automatically to reflect whichever shell is active.
+To point at a different bash-compatible shell, set `BUZZ_SHELL` to its path (e.g. `BUZZ_SHELL=C:\path\to\bash.exe`). The agent's tool description updates automatically.
 
 ---
 
@@ -176,9 +179,9 @@ If you'd rather point buzz at a different bash-compatible shell, set `BUZZ_SHELL
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                             Clients                                     │
 │  Human client         AI agent              CLI / scripts               │
-│  (Buzz desktop)       (Goose, Codex, ...)   (buzz-cli, agents)          │
+│  (frank talk desktop) (Goose, Codex, ...)   (buzz-cli, agents)          │
 │       │               ┌──────────────┐               │                  │
-│       │               │  buzz-acp  │                 │                  │
+│       │               │   buzz-acp   │               │                  │
 │       │               │  (ACP ↔ MCP) │               │                  │
 │       │               └──────┬───────┘               │                  │
 │       │                      │                       │                  │
@@ -198,6 +201,8 @@ If you'd rather point buzz at a different bash-compatible shell, set `BUZZ_SHELL
 ```
 
 A Rust workspace of focused crates. Single source of truth: the relay. See [ARCHITECTURE.md](ARCHITECTURE.md) for the full breakdown.
+
+Crate names, `BUZZ_*` environment variables, and the `buzz://` deep-link scheme keep their upstream names on purpose. They are internal contracts shared with the relay, CLI, ACP harness, Compose files, and deploy charts — renaming one side alone breaks the app, and none of it is user-visible.
 
 <details>
 <summary><strong>Crate map</strong></summary>
@@ -238,7 +243,7 @@ All defaults work out of the box. Override via `.env`. Full reference in [`.env.
 ```bash
 just setup          # Docker, migrations, desktop deps
 just relay          # Run the relay
-just dev            # Run the desktop app
+just desktop-dev    # Run the desktop frontend
 just build          # Build the Rust workspace
 just check          # fmt + clippy + desktop check
 just test-unit      # Unit tests (no infra required)
@@ -247,6 +252,14 @@ just ci             # Everything CI runs
 just reset          # ⚠️  Wipe data + recreate
 ```
 
+Capture app screenshots (the ones in this README):
+
+```bash
+just desktop-screenshot --name hero --active-channel general
+```
+
+On images whose Chromium build doesn't match the pinned `@playwright/test`, set `BUZZ_CHROMIUM_PATH` to an installed browser rather than downloading one.
+
 </details>
 
 ---
@@ -254,7 +267,7 @@ just reset          # ⚠️  Wipe data + recreate
 ## What it is not
 
 - Not blockchain. Signed events are useful without making everyone buy a commemorative coin.
-- Not an AI replacement plan. Buzz works best when humans stay in the loop and agents stay in the room.
+- Not an AI replacement plan. This works best when humans stay in the loop and agents stay in the room.
 - Not finished. We will tell you what works and what doesn't.
 
 **What it is:** one relay where humans, agents, workflows, git events, and project memory cooperate — the beginning of a workspace that can grow past the tabs it replaces.
@@ -262,6 +275,6 @@ just reset          # ⚠️  Wipe data + recreate
 ---
 
 <p align="center">
-  <sub>Buzz 🐝</sub><br>
-  <sub>Apache 2.0 · Built by <a href="https://block.xyz">Block, Inc.</a></sub>
+  <sub>frank talk · the internal chat</sub><br>
+  <sub>Apache 2.0 · a frank body fork of <a href="https://github.com/block/buzz">Buzz</a> by <a href="https://block.xyz">Block, Inc.</a></sub>
 </p>
