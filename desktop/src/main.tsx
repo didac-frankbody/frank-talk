@@ -73,7 +73,7 @@ function renderApp() {
     <React.StrictMode>
       <CommunitiesProvider>
         <CommunityOnboardingProvider>
-          <ThemeProvider defaultTheme="frank">
+          <ThemeProvider defaultTheme="frank-dark">
             <TooltipProvider delayDuration={300}>
               <EmojiBurstProvider>
                 <PoofBurstProvider>

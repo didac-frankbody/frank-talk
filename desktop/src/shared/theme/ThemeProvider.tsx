@@ -556,7 +556,7 @@ async function applyTheme(
 
 export function ThemeProvider({
   children,
-  defaultTheme = "frank",
+  defaultTheme = "frank-dark",
 }: ThemeProviderProps) {
   // Apply cached vars synchronously before first render
   const [selectedTheme, setSelectedTheme] = useState<string>(() => {
@@ -574,10 +574,14 @@ export function ThemeProvider({
   const [followSystem, setFollowSystemState] = useState<boolean>(() => {
     const stored = window.localStorage.getItem(FOLLOW_SYSTEM_KEY);
     if (stored !== null) return stored === "true";
-    // Fresh profiles (no saved theme) default to System mode so the Buzz
-    // default tracks the OS light/dark scheme. Profiles that picked a theme
-    // before this toggle existed keep their fixed theme until they opt in.
-    return window.localStorage.getItem(THEME_STORAGE_KEY) === null;
+    // Fresh profiles do NOT follow the OS. frank talk ships dark, and letting a
+    // fresh install track the system scheme would hand a light-mode machine the
+    // light theme instead — the brand default would then depend on the OS rather
+    // than on us. Users can still switch to Light or System in Appearance
+    // settings, and that choice is what gets persisted here.
+    //
+    // Profiles that already picked a theme keep whatever they chose.
+    return false;
   });
   const [systemIsDark, setSystemIsDark] = useState<boolean>(() => {
     return window.matchMedia("(prefers-color-scheme: dark)").matches;

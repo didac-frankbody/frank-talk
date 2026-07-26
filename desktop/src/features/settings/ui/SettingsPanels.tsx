@@ -47,7 +47,7 @@ import {
 } from "@/shared/ui/dropdown-menu";
 import {
   ACCENT_COLORS,
-  isBuzzTheme,
+  isAccentPinnedTheme,
   NEUTRAL_ACCENT,
   useTheme,
 } from "@/shared/theme/ThemeProvider";
@@ -444,10 +444,12 @@ function ThemeSettingsCard() {
     setFollowSystem,
   } = useTheme();
 
-  // Buzz themes pin a neutral accent (GitHub black in light, white in dark),
-  // so the accent picker is hidden while a Buzz theme is active. `themeName` is
-  // the effective theme, so this also covers System mode resolving to Buzz.
-  const accentPickerHidden = isBuzzTheme(themeName);
+  // Some themes ship a fixed accent, so the picker is hidden while one is
+  // active: the upstream pair pins a neutral (black in light, white in dark),
+  // and frank talk pins Original Pink — letting a user swatch through would
+  // repaint every pink fill off-brand. `themeName` is the effective theme, so
+  // this also covers System mode resolving to one of them.
+  const accentPickerHidden = isAccentPinnedTheme(themeName);
   const shouldReduceMotion = useReducedMotion();
 
   const previewVarsByTheme = useThemePreviewVars();

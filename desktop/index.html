@@ -33,17 +33,13 @@
         try {
           cached = window.localStorage.getItem("buzz-theme-cache");
           if (!cached) {
-            // No stored theme: the default is frank talk following the OS
-            // scheme, so seed the matching class now. Otherwise the setup gate
-            // would paint the wrong scheme until ThemeProvider loads
-            // asynchronously. The ink backdrop above is correct for both frank
-            // variants — the shell is ink either way — so unlike the old Buzz
-            // default there is no light-mode override to apply here.
-            document.documentElement.classList.add(
-              window.matchMedia("(prefers-color-scheme: dark)").matches
-                ? "dark"
-                : "light",
-            );
+            // No stored theme: frank talk ships DARK and deliberately does not
+            // follow the OS on a fresh profile, so seed `dark` unconditionally
+            // rather than reading prefers-color-scheme. Reading the OS here
+            // would flash light chrome on a light-mode machine before
+            // ThemeProvider loads and corrects it. The ink backdrop above is
+            // already right for both frank variants.
+            document.documentElement.classList.add("dark");
             return;
           }
           parsed = JSON.parse(cached);
