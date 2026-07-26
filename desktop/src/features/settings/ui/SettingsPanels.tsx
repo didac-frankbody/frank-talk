@@ -233,7 +233,30 @@ export const settingsSections: SettingsSectionDescriptor[] = [
   },
 ];
 
-function formatThemeLabel(name: string): string {
+/**
+ * Display names for themes whose id does not title-case into the label we want.
+ *
+ * The generic path below splits on "-" and capitalises each word, which is right
+ * for the Shiki bundles ("rose-pine" → "Rose Pine") but wrong for the two
+ * first-party pairs:
+ *
+ * - the brand is always lowercase, so `frank` must not render as "Frank";
+ * - the upstream pair's ids are historical, and its label should not put the old
+ *   product name in front of users.
+ *
+ * Keyed on the theme id, which is a persisted value and deliberately unchanged —
+ * renaming ids would invalidate every saved preference.
+ */
+const THEME_DISPLAY_NAMES: Readonly<Record<string, string>> = {
+  frank: "frank talk",
+  "frank-dark": "frank talk dark",
+  buzz: "Classic",
+  "buzz-dark": "Classic Dark",
+};
+
+export function formatThemeLabel(name: string): string {
+  const override = THEME_DISPLAY_NAMES[name];
+  if (override) return override;
   return name
     .split("-")
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
@@ -246,7 +269,7 @@ function formatThemeLabel(name: string): string {
  * from any position, handling names like "github-light-default", "light-plus",
  * "material-theme-lighter", and "gruvbox-light-soft".
  */
-function pairedThemeLabel(lightName: string): string {
+export function pairedThemeLabel(lightName: string): string {
   const modeTokens = new Set([
     "light",
     "latte",

@@ -187,7 +187,7 @@ export function HostedCommunityOnboarding({
           hostedCommunityErrorMessage(
             response.error,
             response.correlation_id,
-            "Could not connect the Buzz identity.",
+            "Could not connect the frank talk identity.",
           ),
         );
       }
@@ -212,7 +212,7 @@ export function HostedCommunityOnboarding({
           hostedCommunityErrorMessage(
             released.error,
             released.correlation_id,
-            "Could not disconnect the account's previous Buzz identity.",
+            "Could not disconnect the account's previous frank talk identity.",
           ),
         );
       }
@@ -221,11 +221,11 @@ export function HostedCommunityOnboarding({
         await loadAccount();
         throw new Error(
           bound.error.code === "pubkey_already_bound"
-            ? "This device's Buzz identity belongs to a different Builderlab account and can't be moved from here. Sign out, then sign in with the account that already owns this identity."
+            ? "This device's frank talk identity belongs to a different Builderlab account and can't be moved from here. Sign out, then sign in with the account that already owns this identity."
             : hostedCommunityErrorMessage(
                 bound.error,
                 bound.correlation_id,
-                "Could not connect this device's Buzz identity.",
+                "Could not connect this device's frank talk identity.",
               ),
         );
       }
@@ -304,7 +304,7 @@ export function HostedCommunityOnboarding({
           hostedCommunityErrorMessage(
             available.error,
             available.correlation_id,
-            "That Buzz address is already taken.",
+            "That frank talk address is already taken.",
           ),
         );
       }
@@ -586,7 +586,7 @@ export function HostedCommunityOnboarding({
       <p className="mx-auto mt-2 max-w-[560px] text-sm leading-6 text-foreground">
         {hasCommunities
           ? "Connect one you own, or start something new."
-          : "Claim a Buzz address to get started."}
+          : "Claim a frank talk address to get started."}
       </p>
 
       <div className="flex w-full flex-1 flex-col justify-center text-left">

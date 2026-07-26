@@ -161,8 +161,8 @@ export function getBuzzToolInfo(title: string): BuzzToolInfo | null {
     return {
       icon: Hash,
       label: isRead
-        ? "Reads channel context from the Buzz relay."
-        : "Changes channel state in the Buzz relay.",
+        ? "Reads channel context from the frank talk relay."
+        : "Changes channel state in the frank talk relay.",
       tone: isWrite ? "write" : "read",
     };
   }
@@ -174,15 +174,15 @@ export function getBuzzToolInfo(title: string): BuzzToolInfo | null {
     return {
       icon: Users,
       label: isRead
-        ? "Reads Buzz identity or presence data."
-        : "Updates Buzz identity or membership data.",
+        ? "Reads frank talk identity or presence data."
+        : "Updates frank talk identity or membership data.",
       tone: isWrite ? "write" : "admin",
     };
   }
   if (name.includes("search") || name === "get_feed") {
     return {
       icon: Search,
-      label: "Searches relay-visible Buzz history.",
+      label: "Searches relay-visible frank talk history.",
       tone: "read",
     };
   }
@@ -193,7 +193,7 @@ export function getBuzzToolInfo(title: string): BuzzToolInfo | null {
   ) {
     return {
       icon: Send,
-      label: "Publishes relay-visible Buzz activity.",
+      label: "Publishes relay-visible frank talk activity.",
       tone: "write",
     };
   }
