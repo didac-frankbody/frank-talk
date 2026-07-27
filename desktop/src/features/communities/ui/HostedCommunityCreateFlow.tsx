@@ -288,8 +288,8 @@ export function HostedCommunityCreateFlow({
     return (
       <div className="space-y-5">
         <p className="text-sm leading-6 text-muted-foreground">
-          Sign in with Builderlab to create and host a community. Buzz will open
-          your browser, then bring you back here.
+          Sign in with Builderlab to create and host a community. frank talk
+          will open your browser, then bring you back here.
         </p>
         {errorBox}
         <div className="flex justify-end pt-1">
@@ -309,8 +309,8 @@ export function HostedCommunityCreateFlow({
     return (
       <div className="space-y-5">
         <p className="text-sm leading-6 text-muted-foreground">
-          Connect this device’s Buzz identity to your Builderlab account. Your
-          private key stays on this device.
+          Connect this device’s frank talk identity to your Builderlab account.
+          Your private key stays on this device.
         </p>
         {errorBox}
         <div className="flex justify-end gap-2 pt-1">
@@ -339,8 +339,8 @@ export function HostedCommunityCreateFlow({
     return (
       <div className="space-y-5">
         <p className="text-sm leading-6 text-muted-foreground">
-          This Builderlab account uses a different Buzz identity. Switch it to
-          this device, or sign in with another account.
+          This Builderlab account uses a different frank talk identity. Switch
+          it to this device, or sign in with another account.
         </p>
         <div className="rounded-xl bg-muted/40 px-4 py-3 font-mono text-xs text-muted-foreground">
           <p className="break-all">Account: {identity.npub ?? boundPubkey}</p>
