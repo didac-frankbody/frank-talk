@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../shared/theme/theme.dart';
 import 'observer_models.dart';
+import 'transcript_builder.dart' show displaySectionTitle;
 
 /// Renders a single [TranscriptItem] in the agent activity transcript.
 class TranscriptItemWidget extends StatelessWidget {
@@ -236,7 +237,7 @@ class _MetadataItemWidget extends HookWidget {
                 for (final section in item.sections) ...[
                   const SizedBox(height: Grid.xxs),
                   Text(
-                    section.title,
+                    displaySectionTitle(section.title),
                     style: context.textTheme.labelSmall?.copyWith(
                       color: context.colors.onSurfaceVariant,
                       fontWeight: FontWeight.w600,

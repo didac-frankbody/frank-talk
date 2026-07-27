@@ -49,12 +49,9 @@ function CommunityEmptyState() {
   return (
     <div className="flex flex-1 items-center justify-center bg-[#F3F3F3] px-4 py-16 text-center dark:bg-[#171717]">
       <div className="flex w-full max-w-xl flex-col items-center px-6 py-10 sm:px-12 sm:py-12">
-        <div
-          className="h-16 w-16 overflow-hidden bg-black"
-          style={{ borderRadius: "22.37%" }}
-        >
-          <img alt="frank talk" className="h-full w-full" src={buzzAppIcon} />
-        </div>
+        {/* The mark ships with its own rounded ground, so it needs neither a
+            squircle mask nor a backing fill. */}
+        <img alt="frank talk" className="h-16 w-16" src={buzzAppIcon} />
         <h1 className="mt-6 text-2xl font-semibold tracking-tight text-black dark:text-white">
           This community is empty
         </h1>

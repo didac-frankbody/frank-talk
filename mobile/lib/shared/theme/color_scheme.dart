@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'accent_colors.dart';
 
-// Catppuccin Latte (mauve accent) — matches Buzz desktop light theme
+// Catppuccin Latte (mauve accent). This predates the frank talk re-skin and no
+// longer matches the desktop, whose light theme is the brand palette.
 const lightColorScheme = ColorScheme(
   brightness: Brightness.light,
   primary: Color(0xFF8839EF), // Latte Mauve
@@ -35,7 +36,7 @@ const lightColorScheme = ColorScheme(
   surfaceContainerHighest: Color(0xFFFFFFFF),
 );
 
-// Catppuccin Macchiato (mauve accent) — matches Buzz desktop dark theme
+// Catppuccin Macchiato (mauve accent) — the dark counterpart, same caveat.
 const darkColorScheme = ColorScheme(
   brightness: Brightness.dark,
   primary: Color(0xFFA875F5), // Macchiato Mauve (saturated)

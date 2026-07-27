@@ -458,7 +458,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('No messages yet'), findsOneWidget);
-      expect(find.text('Be the first to say something!'), findsOneWidget);
+      expect(find.text('Be the first to say something'), findsOneWidget);
     });
 
     testWidgets('renders text messages with author and content', (

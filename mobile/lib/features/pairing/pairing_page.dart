@@ -89,7 +89,10 @@ class PairingPage extends HookConsumerWidget {
                     children: [
                       const Spacer(flex: 2),
 
-                      Image.asset('assets/images/buzz-icon.png', height: 64),
+                      Image.asset(
+                        'assets/images/frank-talk-icon.png',
+                        height: 64,
+                      ),
                       const SizedBox(height: Grid.xs),
                       Text(
                         'Welcome to frank talk',

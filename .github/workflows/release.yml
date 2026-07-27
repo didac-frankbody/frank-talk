@@ -70,7 +70,7 @@ jobs:
             NOTES=$(awk "/^## v${VERSION}\$/{found=1; next} found && /^## v/{exit} found && !/^\$/" CHANGELOG.md)
           fi
           if [[ -z "$NOTES" ]]; then
-            NOTES="Buzz Desktop v${VERSION}"
+            NOTES="frank talk Desktop v${VERSION}"
           fi
           PRERELEASE_FLAGS=()
           if [[ "$VERSION" =~ -(test|alpha|beta|rc)([.-]|$) ]]; then
@@ -78,7 +78,7 @@ jobs:
           fi
           gh release create "v${VERSION}" \
             --target "$RELEASE_SHA" \
-            --title "Buzz Desktop v${VERSION}" \
+            --title "frank talk Desktop v${VERSION}" \
             --notes "$NOTES" \
             "${PRERELEASE_FLAGS[@]}"
 
@@ -88,7 +88,7 @@ jobs:
         run: |
           gh release create buzz-desktop-latest \
             --prerelease \
-            --title "Buzz Desktop Auto-Update" \
+            --title "frank talk Desktop Auto-Update" \
             --notes "Rolling release for the Tauri auto-updater. Do not download manually — use the versioned release instead." \
             2>/dev/null || true
 
@@ -241,30 +241,30 @@ jobs:
           EXTRACT_DIR="${RUNNER_TEMP}/signed-app-extract"
           rm -rf "$EXTRACT_DIR" && mkdir -p "$EXTRACT_DIR"
           ditto -x -k "$SIGNED_APP_ZIP" "$EXTRACT_DIR"
-          rm -rf "${APP_DIR}/Buzz.app"
-          cp -R "${EXTRACT_DIR}/Buzz.app" "${APP_DIR}/Buzz.app"
+          rm -rf "${APP_DIR}/frank talk.app"
+          cp -R "${EXTRACT_DIR}/frank talk.app" "${APP_DIR}/frank talk.app"
 
           # Rebuild the updater archive from the signed .app and re-sign it with the Tauri updater key.
-          rm -f "${APP_DIR}/Buzz.app.tar.gz" "${APP_DIR}/Buzz.app.tar.gz.sig"
-          (cd "$APP_DIR" && tar -czf Buzz.app.tar.gz Buzz.app)
-          TARBALL_ABS="$(pwd)/${APP_DIR}/Buzz.app.tar.gz"
+          rm -f "${APP_DIR}/frank talk.app.tar.gz" "${APP_DIR}/frank talk.app.tar.gz.sig"
+          (cd "$APP_DIR" && tar -czf "frank talk.app.tar.gz" "frank talk.app")
+          TARBALL_ABS="$(pwd)/${APP_DIR}/frank talk.app.tar.gz"
           (cd desktop && pnpm tauri signer sign "$TARBALL_ABS")
 
       - name: Verify code signature
         run: |
           codesign --verify --deep --strict --verbose=2 \
-            desktop/src-tauri/target/release/bundle/macos/Buzz.app
+            "desktop/src-tauri/target/release/bundle/macos/frank talk.app"
           spctl --assess --type execute --verbose=4 \
-            desktop/src-tauri/target/release/bundle/macos/Buzz.app
+            "desktop/src-tauri/target/release/bundle/macos/frank talk.app"
           desktop/scripts/verify-macos-entitlements.sh \
-            desktop/src-tauri/target/release/bundle/macos/Buzz.app
+            "desktop/src-tauri/target/release/bundle/macos/frank talk.app"
 
       - name: Locate build artifacts
         id: artifacts
         run: |
           BUNDLE_DIR="desktop/src-tauri/target/release/bundle"
 
-          # Find the DMG (Tauri names it Buzz_<version>_<arch>.dmg)
+          # Find the DMG (Tauri names it <productName>_<version>_<arch>.dmg)
           DMG=$(find "$BUNDLE_DIR/dmg" -name '*.dmg' -type f | head -1)
           if [[ -z "$DMG" ]]; then
             echo "::error::No DMG found in $BUNDLE_DIR/dmg"
@@ -416,18 +416,18 @@ jobs:
           EXTRACT_DIR="${RUNNER_TEMP}/signed-app-extract-x64"
           rm -rf "$EXTRACT_DIR" && mkdir -p "$EXTRACT_DIR"
           ditto -x -k "$SIGNED_APP_ZIP" "$EXTRACT_DIR"
-          rm -rf "${APP_DIR}/Buzz.app"
-          cp -R "${EXTRACT_DIR}/Buzz.app" "${APP_DIR}/Buzz.app"
+          rm -rf "${APP_DIR}/frank talk.app"
+          cp -R "${EXTRACT_DIR}/frank talk.app" "${APP_DIR}/frank talk.app"
 
           # Rebuild the updater archive from the signed .app and re-sign with the Tauri updater key.
-          rm -f "${APP_DIR}/Buzz.app.tar.gz" "${APP_DIR}/Buzz.app.tar.gz.sig"
-          (cd "$APP_DIR" && tar -czf Buzz.app.tar.gz Buzz.app)
-          TARBALL_ABS="$(pwd)/${APP_DIR}/Buzz.app.tar.gz"
+          rm -f "${APP_DIR}/frank talk.app.tar.gz" "${APP_DIR}/frank talk.app.tar.gz.sig"
+          (cd "$APP_DIR" && tar -czf "frank talk.app.tar.gz" "frank talk.app")
+          TARBALL_ABS="$(pwd)/${APP_DIR}/frank talk.app.tar.gz"
           (cd desktop && pnpm tauri signer sign "$TARBALL_ABS")
 
       - name: Verify code signature
         run: |
-          APP_DIR="desktop/src-tauri/target/${TARGET}/release/bundle/macos/Buzz.app"
+          APP_DIR="desktop/src-tauri/target/${TARGET}/release/bundle/macos/frank talk.app"
           codesign --verify --deep --strict --verbose=2 "$APP_DIR"
           spctl --assess --type execute --verbose=4 "$APP_DIR"
           desktop/scripts/verify-macos-entitlements.sh "$APP_DIR"

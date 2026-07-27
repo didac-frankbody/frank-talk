@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Accent colors matching the desktop Buzz app.
+/// Accent colors from the desktop app as it was before the frank talk re-skin.
 class AccentColor {
   final String name;
   final Color light;

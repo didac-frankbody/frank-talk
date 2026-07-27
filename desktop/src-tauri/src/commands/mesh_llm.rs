@@ -43,7 +43,7 @@ fn load_mesh_sharing_config(app: &AppHandle) -> Result<Option<MeshSharingConfig>
 }
 
 const RELAY_MESH_RUNTIME_NO_TARGET: &str =
-    "Buzz shared compute requires a live serving member; start serving the selected model on a member, then try again";
+    "frank talk shared compute requires a live serving member; start serving the selected model on a member, then try again";
 
 /// Whether the Share-compute "stop sharing" path (`mesh_stop_node`) should tear
 /// down the runtime currently occupying the single slot.

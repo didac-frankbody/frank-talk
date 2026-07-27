@@ -206,6 +206,14 @@ String _extractPromptText(Map<String, dynamic> payload) {
   return (prompt).map(_extractBlockText).where((s) => s.isNotEmpty).join('\n');
 }
 
+/// `[Buzz event: …]` is the harness's wire marker for an injected relay event and
+/// it stays that way — the harness, this client and the desktop all parse it, and
+/// an older sidecar paired with a newer app has to keep working. The rename
+/// happens at the render boundary instead: parsed titles stay raw for matching,
+/// and only the word the reader sees is rebranded.
+String displaySectionTitle(String title) =>
+    title.replaceFirst(RegExp(r'^Buzz event\b'), 'frank talk event');
+
 ({List<PromptSection> sections, String userText, String userTitle})
 _parsePromptText(String text) {
   final sections = _parsePromptSections(text);

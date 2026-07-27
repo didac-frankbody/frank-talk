@@ -521,6 +521,32 @@ fn random_state() -> Result<String, AgentError> {
     Ok(base64::engine::general_purpose::URL_SAFE_NO_PAD.encode(bytes))
 }
 
+/// Brand styles for the two browser-facing sign-in pages. Ink carries all
+/// text; Original Pink is a fill only, so it paints the accent bar and never
+/// a glyph. There is no red in the brand — the failure page uses the same
+/// palette as the success page.
+const AUTH_PAGE_STYLE: &str = "\
+:root{color-scheme:light}\
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:1.5rem;\
+background:#FFFBFA;color:#3F2A2D;\
+font:16px/1.5 ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif}\
+main{max-width:32rem;padding:2.5rem;background:#FFFFFF;border:1px solid #FFD0C6;\
+border-radius:1rem}\
+main::before{content:'';display:block;width:2.5rem;height:.375rem;\
+margin-bottom:1.5rem;border-radius:999px;background:#FFB6A5}\
+h1{margin:0 0 .5rem;font-size:1.5rem;letter-spacing:-.01em}\
+p{margin:0}\
+pre{margin:1rem 0 0;padding:1rem;overflow-x:auto;background:#FFEFEA;\
+border-radius:.5rem;font-size:.875rem}";
+
+/// Wraps `body` in the branded page shell. `body` is injected verbatim.
+fn auth_page(body: &str) -> String {
+    format!(
+        "<!doctype html><meta charset=\"utf-8\"><title>frank talk</title>\
+         <style>{AUTH_PAGE_STYLE}</style><main>{body}</main>"
+    )
+}
+
 /// Spin up a localhost callback server, open the authorize URL in a
 /// browser, wait up to [`BROWSER_AUTH_TIMEOUT`] for the redirect, then
 /// exchange the code for a token.
@@ -559,10 +585,14 @@ async fn browser_pkce_flow(
                     let _ = sender.send(result.clone());
                 }
                 match result {
-                    Ok(_) => Html(
-                        "<h2>Buzz: signed in</h2><p>You can close this window.</p>".to_string(),
-                    ),
-                    Err(e) => Html(format!("<h2>Buzz auth failed</h2><pre>{e}</pre>")),
+                    Ok(_) => Html(auth_page(
+                        "<h1>frank talk: you're signed in</h1>\
+                         <p>You can close this window.</p>",
+                    )),
+                    Err(e) => Html(auth_page(&format!(
+                        "<h1>frank talk: sign-in didn't work</h1>\
+                         <p>Close this window and try again.</p><pre>{e}</pre>"
+                    ))),
                 }
             }
         }),

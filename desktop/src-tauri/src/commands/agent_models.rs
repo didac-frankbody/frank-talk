@@ -235,11 +235,11 @@ pub async fn discover_agent_models(
             ],
         )
         .await
-        .map_err(|error| format!("Buzz shared compute model discovery failed: {error}"))?;
+        .map_err(|error| format!("frank talk shared compute model discovery failed: {error}"))?;
         let availability = crate::mesh_llm::availability_from_events(events);
         if availability.models.is_empty() {
             return Err(availability.reason.unwrap_or_else(|| {
-                "No live Buzz shared compute models are available".to_string()
+                "No live frank talk shared compute models are available".to_string()
             }));
         }
         return Ok(AgentModelsResponse {

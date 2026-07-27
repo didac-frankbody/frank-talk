@@ -54,14 +54,16 @@
     --buzz-gradient-dark-bottom: #0a1423;
     --buzz-content-dark: 0 0% 10.1960784314%;
     /* Hosted-community onboarding intentionally keeps this light palette in
-       both app themes; semantic tokens keep component code color-agnostic. */
-    --buzz-hosted-community-surface-fg: 23 23 23;
-    --buzz-hosted-community-divider-border: 150 150 10;
-    --buzz-hosted-community-action-bg: 240 240 205;
-    --buzz-hosted-community-action-bg-hover: 232 232 188;
+       both app themes; semantic tokens keep component code color-agnostic.
+       These are brand values, not Buzz's: the surface type was near-black and
+       the divider and action fills were olive and cream. */
+    --buzz-hosted-community-surface-fg: 63 42 45;
+    --buzz-hosted-community-divider-border: 139 108 112;
+    --buzz-hosted-community-action-bg: 255 239 234;
+    --buzz-hosted-community-action-bg-hover: 255 208 198;
     --buzz-hosted-community-input-bg: 255 255 255;
-    --buzz-hosted-community-modal-action-fg: 255 255 255;
-    --buzz-hosted-community-modal-overlay-bg: 0 0 0;
+    --buzz-hosted-community-modal-action-fg: 255 251 250;
+    --buzz-hosted-community-modal-overlay-bg: 63 42 45;
     --buzz-hosted-community-identity-bg: 255 255 255;
   }
 

@@ -30,7 +30,11 @@ const BACKGROUND_BLOCKED_STATES = new Set<UpdateStatus["state"]>([
   "manual-required",
 ]);
 
-const GITHUB_RELEASES_URL = "https://github.com/block/buzz/releases/latest";
+// This fork's releases, not upstream Buzz's — the Check for updates dialog
+// links here, and pointing it at block/buzz would offer the user a different
+// product's builds.
+const GITHUB_RELEASES_URL =
+  "https://github.com/didac-frankbody/frank-talk/releases/latest";
 
 function toErrorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);

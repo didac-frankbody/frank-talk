@@ -17,6 +17,18 @@ export default {
         ],
       },
       colors: {
+        /*
+         * frank talk brand palette, for the surfaces that sit outside the
+         * themed shadcn tokens (the public invite page). Ink carries all type
+         * and every dark fill; Original Pink is a background only, never a
+         * text colour, and there is no red in this brand.
+         */
+        frank: {
+          ink: "#3F2A2D",
+          pink: "#FFB6A5",
+          blush: "#FFEFEA",
+          "off-white": "#FFFBFA",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

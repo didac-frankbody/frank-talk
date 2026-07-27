@@ -32,7 +32,7 @@ use nostr::{EventBuilder, Keys, Kind, Tag};
 use tracing::warn;
 
 #[derive(Parser)]
-#[command(name = "buzz-admin", about = "Buzz instance administration")]
+#[command(name = "buzz-admin", about = "frank talk instance administration")]
 struct Cli {
     #[command(subcommand)]
     command: Command,
@@ -76,7 +76,7 @@ enum Command {
     GenerateKey,
     /// Run pending database migrations.
     Migrate,
-    /// Inspect deployment-wide Buzz product feedback.
+    /// Inspect deployment-wide frank talk product feedback.
     ProductFeedback {
         #[command(subcommand)]
         command: ProductFeedbackCommand,

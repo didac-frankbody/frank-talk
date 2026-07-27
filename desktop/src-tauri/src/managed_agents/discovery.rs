@@ -16,8 +16,9 @@ pub(crate) use runtime_metadata::KnownAcpRuntime;
 const GOOSE_AVATAR_URL: &str = "https://goose-docs.ai/img/logo_dark.png";
 const CLAUDE_CODE_AVATAR_URL: &str = "https://anthropic.gallerycdn.vsassets.io/extensions/anthropic/claude-code/2.1.77/1773707456892/Microsoft.VisualStudio.Services.Icons.Default";
 const CODEX_AVATAR_URL: &str = "https://openai.gallerycdn.vsassets.io/extensions/openai/chatgpt/26.5313.41514/1773706730621/Microsoft.VisualStudio.Services.Icons.Default";
-const BUZZ_AGENT_AVATAR_URL: &str =
-    "https://raw.githubusercontent.com/block/buzz/refs/heads/main/crates/buzz-agent/buzz-agent.png";
+// The built-in agent wears the app's own mark. It used to fetch a bee PNG from
+// upstream Buzz's GitHub over the network; inlined, it also renders offline.
+const BUZZ_AGENT_AVATAR_URL: &str = "data:image/png;base64,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";
 
 fn common_binary_paths() -> &'static [PathBuf] {
     static PATHS: OnceLock<Vec<PathBuf>> = OnceLock::new();
@@ -79,7 +80,7 @@ const KNOWN_ACP_RUNTIMES: &[KnownAcpRuntime] = &[
         adapter_install_commands: &[],
         cli_install_instructions_url: "https://goose-docs.ai/docs/getting-started/installation/",
         adapter_install_instructions_url: "",
-        cli_install_hint: "Buzz requires the Goose CLI; the desktop app alone is not enough.",
+        cli_install_hint: "frank talk requires the Goose CLI; the desktop app alone is not enough.",
         adapter_install_hint: "",
         skill_dir: Some(".goose/skills"),
         supports_acp_model_switching: false,
@@ -111,7 +112,7 @@ const KNOWN_ACP_RUNTIMES: &[KnownAcpRuntime] = &[
         adapter_install_commands: &["npm install -g @agentclientprotocol/claude-agent-acp"],
         cli_install_instructions_url: "https://code.claude.com/docs/en/getting-started",
         adapter_install_instructions_url: "https://github.com/agentclientprotocol/claude-agent-acp",
-        cli_install_hint: "Buzz requires the Claude Code CLI; the desktop app alone is not enough.",
+        cli_install_hint: "frank talk requires the Claude Code CLI; the desktop app alone is not enough.",
         adapter_install_hint: "Install the Claude Code ACP adapter via npm.",
         skill_dir: Some(".claude/skills"),
         supports_acp_model_switching: false,
@@ -143,7 +144,7 @@ const KNOWN_ACP_RUNTIMES: &[KnownAcpRuntime] = &[
         adapter_install_commands: &["npm install -g @agentclientprotocol/codex-acp"],
         cli_install_instructions_url: "https://developers.openai.com/codex/cli/",
         adapter_install_instructions_url: "https://github.com/agentclientprotocol/codex-acp",
-        cli_install_hint: "Buzz requires the Codex CLI; the desktop app alone is not enough.",
+        cli_install_hint: "frank talk requires the Codex CLI; the desktop app alone is not enough.",
         adapter_install_hint: "Install the Codex ACP adapter via npm.",
         skill_dir: Some(".codex/skills"),
         supports_acp_model_switching: false,
@@ -164,7 +165,7 @@ const KNOWN_ACP_RUNTIMES: &[KnownAcpRuntime] = &[
     },
     KnownAcpRuntime {
         id: "buzz-agent",
-        label: "Buzz Agent",
+        label: "frank talk Agent",
         commands: &["buzz-agent"],
         aliases: &[],
         avatar_url: BUZZ_AGENT_AVATAR_URL,
@@ -174,9 +175,9 @@ const KNOWN_ACP_RUNTIMES: &[KnownAcpRuntime] = &[
         cli_install_commands: &[],
         cli_install_commands_windows: &[],
         adapter_install_commands: &[],
-        cli_install_instructions_url: "https://github.com/block/buzz",
-        adapter_install_instructions_url: "https://github.com/block/buzz",
-        cli_install_hint: "Ships with the Buzz desktop app.",
+        cli_install_instructions_url: "https://github.com/didac-frankbody/frank-talk",
+        adapter_install_instructions_url: "https://github.com/didac-frankbody/frank-talk",
+        cli_install_hint: "Ships with the frank talk desktop app.",
         adapter_install_hint: "",
         skill_dir: None,
         supports_acp_model_switching: true,

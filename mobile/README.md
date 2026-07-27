@@ -1,6 +1,6 @@
-# Buzz Mobile
+# frank talk mobile
 
-Flutter mobile client for Buzz.
+Flutter mobile client for frank talk.
 
 ## Setup
 

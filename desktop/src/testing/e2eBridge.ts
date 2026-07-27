@@ -7026,7 +7026,7 @@ async function handleDiscoverAcpRuntimes(
       default_args: [],
       mcp_command: "buzz-dev-mcp",
       install_hint: "Ships with the frank talk desktop app.",
-      install_instructions_url: "https://github.com/block/buzz",
+      install_instructions_url: "https://github.com/didac-frankbody/frank-talk",
       can_auto_install: false,
       requires_external_cli: false,
       underlying_cli_path: null,
