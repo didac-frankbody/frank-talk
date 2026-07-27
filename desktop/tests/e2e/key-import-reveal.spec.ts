@@ -6,9 +6,9 @@ import { installMockBridge } from "../helpers/bridge";
 const SAMPLE_NSEC =
   "nsec1u70xptkumvfc4k4hu0rc4fnzcexvw63zvq2ng9vmqujsaayhparqu8eju9";
 
-// --buzz-onboarding-backup-ink (#717106), the olive key ink shared with the
-// backup step.
-const BACKUP_INK = "rgb(113, 113, 6)";
+// `--buzz-onboarding-backup-ink`, the soft ink the onboarding surfaces use for
+// key text and captions. Olive under Buzz; brand ink now.
+const BACKUP_INK = "rgb(139, 108, 112)";
 
 test("key import masks the key with a reveal toggle", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });

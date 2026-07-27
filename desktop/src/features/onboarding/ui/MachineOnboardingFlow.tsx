@@ -6,12 +6,12 @@ import {
   importIdentity,
   persistCurrentIdentity,
 } from "@/shared/api/tauriIdentity";
+import { FrankWordmark } from "@/shared/ui/frank-logo/FrankWordmark";
 import { Button } from "@/shared/ui/button";
 import { StartupWindowDragRegion } from "@/shared/ui/StartupWindowDragRegion";
 import { BackupStep } from "./BackupStep";
 import { DefaultConfigStep } from "./DefaultConfigStep";
 import { IdentityKeyHelpDialog } from "./IdentityKeyHelpDialog";
-import { LandingBees } from "./LandingBees";
 import { NostrKeyImportForm } from "./NostrKeyImportForm";
 import {
   ONBOARDING_LANDING_CTA_CLASS,
@@ -119,7 +119,6 @@ export function MachineOnboardingFlow({
       data-testid="machine-onboarding-gate"
     >
       <StartupWindowDragRegion />
-      {page === "identity" ? <LandingBees /> : null}
       {page !== "identity" ? (
         <OnboardingChrome
           current={page === "config" ? 4 : page === "setup" ? 3 : 2}
@@ -138,11 +137,7 @@ export function MachineOnboardingFlow({
               effect="mask-reveal-up"
               transitionKey="machine-identity"
             >
-              <img
-                alt="frank talk"
-                className="w-full max-w-[600px]"
-                src="/landing/buzz-wordmark.png"
-              />
+              <FrankWordmark className="max-w-[600px]" />
               <p className="mt-2 max-w-[560px] text-center text-2xl font-normal leading-none text-foreground">
                 Your people, your agents, your projects —<br />
                 all in one place.

@@ -301,12 +301,15 @@ test("Welcome failure retries once before allowing starter channel setup to be s
   );
   await page.goto("/");
 
+  // Each starter agent shows its own avatar. The three built-ins ship an inlined
+  // brand tile — this used to assert a bee character PNG served from
+  // /onboarding/starter-team/.
   for (const name of ["fizz", "honey", "bumble"]) {
     const character = page.getByTestId(`starter-persona-${name}`);
     await expect(character).toBeVisible();
-    await expect(character).toHaveAttribute(
+    await expect(character.locator("img")).toHaveAttribute(
       "src",
-      `/onboarding/starter-team/${name}.png`,
+      /^data:image\/png;base64,/,
     );
   }
 

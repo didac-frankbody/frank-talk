@@ -42,9 +42,11 @@ test("mobile pairing uses the local Wallet-style QR renderer", async ({
   await expect(qrCode).toHaveAttribute("data-qr-matrix-size", "57");
   await expect(qrCode.locator("[data-qr-finder-pattern]")).toHaveCount(3);
   expect(await qrCode.locator("circle").count()).toBeGreaterThan(100);
+  // The QR card is white in both themes, so its centre marker is pinned to the
+  // ink-ground icon variant rather than the theme-matched one.
   await expect(qrCode.locator("image")).toHaveAttribute(
     "href",
-    "/app-icon@2x.png",
+    "/app-icon-dark@2x.png",
   );
   await waitForAnimations(page);
   const qrContainerWidth = await qrContainer.evaluate(

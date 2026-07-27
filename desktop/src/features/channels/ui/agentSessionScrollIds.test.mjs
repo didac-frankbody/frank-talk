@@ -8,9 +8,11 @@
  *  4. Mode-toggle reset-key disjointness.
  *
  * Corrective action 3 (ordered DOM parity) — NAMED RESIDUAL:
- *  AgentSessionTranscriptList cannot render under node:test — the component
- *  tree transitively imports a .css file (BuzzLogoAnimation.tsx →
- *  buzz-logo-animation.css) and the test-loader has no CSS stub. The
+ *  AgentSessionTranscriptList did not render under node:test — the component
+ *  tree transitively imported a .css file (BuzzLogoAnimation.tsx →
+ *  buzz-logo-animation.css) and the test-loader has no CSS stub. That import
+ *  is gone with the Buzz mark, so the blocker may have lifted; nobody has
+ *  re-checked whether the tree is CSS-free end to end. The
  *  underlying invariant (outer-derived ids = inner data-message-id) is
  *  structurally guaranteed by both sides calling the same exported
  *  getDisplayBlockKey, but a full-component render test would additionally
@@ -425,8 +427,9 @@ test("stabilization chain: production helper → useStableArrayShallow → same 
 
 // ── Corrective action 3: ordered DOM parity — structural guarantee ──────────
 //
-// AgentSessionTranscriptList cannot render under node:test (CSS import blocker:
-// BuzzLogoAnimation.tsx → buzz-logo-animation.css). The test below verifies the
+// AgentSessionTranscriptList did not render under node:test (CSS import blocker:
+// BuzzLogoAnimation.tsx → buzz-logo-animation.css, since removed along with the
+// Buzz mark — untested whether the tree is CSS-free now). The test below verifies the
 // structural guarantee: both sides (outer derivation + inner render) call the
 // SAME getDisplayBlockKey function, and the outer uses the SAME
 // buildTranscriptDisplayBlocks output. This cannot catch a block being filtered

@@ -8,14 +8,20 @@ import { cn } from "@/shared/lib/cn";
 
 type StageCharacter = {
   name: string;
-  animationUrl: string;
 };
 
-/** Same animated APNGs the "Meet your starter team" onboarding step uses. */
+/**
+ * One marker per starter agent.
+ *
+ * These were animated bee characters — Buzz's mascots. frank talk has no
+ * mascot, so the same three staggered slots carry Original Pink markers
+ * instead: the arrival still reads as "your team is turning up" without
+ * borrowing another brand's characters.
+ */
 const STAGE_CHARACTERS: readonly StageCharacter[] = [
-  { name: "Fizz", animationUrl: "/onboarding/starter-team/fizz.png" },
-  { name: "Honey", animationUrl: "/onboarding/starter-team/honey.png" },
-  { name: "Bumble", animationUrl: "/onboarding/starter-team/bumble.png" },
+  { name: "Fizz" },
+  { name: "Honey" },
+  { name: "Bumble" },
 ];
 
 const STAGE_EXIT_ANIMATION = "motion-kickoff-stage-exit";
@@ -62,12 +68,10 @@ export function WelcomeKickoffStage({
       onAnimationEnd={handleAnimationEnd}
     >
       {STAGE_CHARACTERS.map((character, index) => (
-        <img
-          alt=""
-          className="motion-kickoff-character-enter h-16 w-16 object-contain"
+        <span
+          className="motion-kickoff-character-enter block size-10 rounded-full bg-primary"
           data-testid={`welcome-kickoff-stage-${character.name.toLowerCase()}`}
           key={character.name}
-          src={character.animationUrl}
           style={{ "--stagger-index": index } as React.CSSProperties}
         />
       ))}
