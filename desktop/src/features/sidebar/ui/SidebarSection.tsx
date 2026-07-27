@@ -71,7 +71,9 @@ function UnreadCountBadge({
   return (
     <span
       className={cn(
-        "flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-primary px-1 text-2xs font-semibold leading-none text-primary-foreground tabular-nums",
+        // `font-display` is Pitch: the brand puts every numeral — counts, IDs,
+        // money — in the display face rather than the UI face.
+        "flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-primary px-1 font-display text-2xs font-semibold leading-none text-primary-foreground tabular-nums",
         className,
       )}
       data-testid={`channel-unread-${channelName}`}

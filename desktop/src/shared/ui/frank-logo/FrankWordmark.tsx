@@ -16,10 +16,12 @@ const WORDMARK_HEIGHT = 200;
  * `desktop/public/frank-talk-wordmark.png` updates the logo everywhere it
  * appears; no component changes needed.
  *
- * Note the asset carries its own colours (`#2A2A2A` block, `#F8E6E6` field) and
+ * Note the asset carries its own colours (`#2A2A2A` block, `#FFFFFF` field) and
  * is deliberately NOT tinted by the theme — a logo is not a themed surface. It
  * therefore looks the same in frank light and frank dark, which is what a
- * wordmark should do.
+ * wordmark should do. The handoff calls this the dark-surface variant *and* the
+ * default, on the grounds that frank talk's sidebar is always ink, so there is
+ * no light-sidebar state to swap it for.
  *
  * `width`/`height` are set to the intrinsic pixel size so the browser reserves
  * the right box before the image decodes and the logo zone does not reflow on
@@ -58,7 +60,13 @@ export function FrankLogoZone({ className }: { className?: string }) {
       data-frank-logo-zone=""
       data-testid="frank-logo-zone"
     >
-      <FrankWordmark />
+      {/*
+       * 196px is the lockup's cap from the handoff's metrics. The zone is 220px
+       * of content inside the 252px sidebar, so without the cap the wordmark
+       * would sit wider than specified; `mx-auto` keeps it centred once capped,
+       * and `w-full` still lets it shrink if the sidebar is dragged narrower.
+       */}
+      <FrankWordmark className="mx-auto max-w-[196px]" />
       <span className="text-center text-badge font-semibold uppercase tracking-[0.16em] text-sidebar-foreground/50">
         the internal chat
       </span>

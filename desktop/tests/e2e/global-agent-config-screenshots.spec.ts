@@ -487,7 +487,7 @@ test.describe("global agent config screenshots", () => {
     );
 
     const harness = defaultsDialog.getByTestId("global-agent-default-harness");
-    await expect(harness).toHaveText("Buzz Agent");
+    await expect(harness).toHaveText("frank talk Agent");
     const provider = defaultsDialog.getByTestId("global-agent-provider");
     await expect(provider).toBeVisible();
     await waitForAnimations(page);
@@ -575,7 +575,7 @@ test.describe("global agent config screenshots", () => {
     const defaultsDialog = page.getByTestId("agent-ai-defaults-dialog");
     await expect(
       defaultsDialog.getByTestId("global-agent-default-harness"),
-    ).toHaveText("Buzz Agent");
+    ).toHaveText("frank talk Agent");
 
     await defaultsDialog.getByTestId("global-agent-provider").click();
     await page.getByTestId("global-agent-provider-option-anthropic").click();
@@ -746,7 +746,7 @@ test.describe("global agent config screenshots", () => {
       defaultsSection.getByText("Harness", { exact: true }),
     ).toBeVisible();
     await expect(
-      defaultsSection.getByText("Buzz Agent", { exact: true }),
+      defaultsSection.getByText("frank talk Agent", { exact: true }),
     ).toBeVisible();
 
     // Global provider satisfies the provider-default rule → submit enabled.

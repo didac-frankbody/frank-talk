@@ -3,6 +3,10 @@ import {
   type UserProfileLookup,
 } from "@/features/profile/lib/identity";
 import {
+  formatDayHeading,
+  formatTime,
+} from "@/features/messages/lib/dateFormatters";
+import {
   getThreadReference,
   isBroadcastReply,
 } from "@/features/messages/lib/threading";
@@ -103,20 +107,15 @@ const listTimeFormatter = new Intl.DateTimeFormat("en-US", {
   minute: "2-digit",
 });
 
-const fullTimeFormatter = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric",
-  year: "numeric",
-  hour: "numeric",
-  minute: "2-digit",
-});
-
-const shortDateFormatter = new Intl.DateTimeFormat("en-US", {
+// Day-month order (`en-GB`), not month-day: the brand writes absolute dates as
+// "12 Mar 2026" so they read the same either side of the Atlantic. The clock and
+// weekday formatters above stay `en-US` — the app's clock is 12-hour.
+const shortDateFormatter = new Intl.DateTimeFormat("en-GB", {
   month: "short",
   day: "numeric",
 });
 
-const shortDateWithYearFormatter = new Intl.DateTimeFormat("en-US", {
+const shortDateWithYearFormatter = new Intl.DateTimeFormat("en-GB", {
   month: "short",
   day: "numeric",
   year: "numeric",
@@ -337,8 +336,18 @@ function formatInboxTimestamp(unixSeconds: number) {
   return shortDateWithYearFormatter.format(date);
 }
 
+/**
+ * Day + clock time for the inbox detail header, e.g. "Today 12:57 AM",
+ * "Tue 4:02 PM", "12 Mar 2026 9:41 AM".
+ *
+ * The day half comes from the shared timeline formatter so this reads the same
+ * way as a day divider: relative while a reader still has the week in their
+ * head, an unambiguous day-month-year once they don't. It used to render
+ * "Jul 27, 2026, 12:57 AM" — an absolute US-order date even for a message from
+ * an hour ago, which is neither of those.
+ */
 export function formatInboxFullTimestamp(unixSeconds: number) {
-  return fullTimeFormatter.format(new Date(unixSeconds * 1_000));
+  return `${formatDayHeading(unixSeconds)} ${formatTime(unixSeconds)}`;
 }
 
 export function relayEventFromFeedItem(item: FeedItem): RelayEvent {

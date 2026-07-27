@@ -5,8 +5,16 @@
 
     The wordmark itself is 4.36:1 — at 16px wide it would be under 4px tall and
     unreadable — so this keeps the logo's structure (one rounded block split into
-    a dark field and a pale field) without its type. Colours are sampled from the
-    supplied asset (`#2A2A2A` / `#F8E6E6`) so the two read as the same mark.
+    a dark field and a pale field) without its type.
+
+    The ink is the lockup's own `#2A2A2A`. The pale field is brand blush
+    (`#F8E6E6`) rather than the lockup's pure white on purpose: at 16px a white
+    field disappears into light browser tab chrome and the mark loses its right
+    half. One half-step down keeps the silhouette readable on light and dark
+    chrome alike.
+
+    This is an interim mark. A produced icon set (`src-tauri/icons/`, the
+    `app-icon@2x/@3x.png` pair) still has to be cut from the official lockup.
 
     The full wordmark lives at public/frank-talk-wordmark.png and is what
     FrankWordmark renders wherever there is horizontal room.

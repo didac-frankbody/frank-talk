@@ -1,3 +1,4 @@
+import { Users } from "lucide-react";
 import * as React from "react";
 
 import { getPresenceLabel } from "@/features/presence/lib/presence";
@@ -87,12 +88,12 @@ export function SidebarProfileCard({
       className="flex min-w-0 cursor-pointer items-center gap-1 text-xs leading-snug text-sidebar-foreground/70"
       data-buzz-sidebar-secondary
     >
-      <span
+      {/* Line icon, not an emoji — emoji stay in user content, not UI chrome. */}
+      <Users
         aria-hidden="true"
-        className="flex w-3.5 shrink-0 items-center justify-center text-2xs"
-      >
-        <span className="-translate-y-px leading-normal">🐝</span>
-      </span>
+        className="h-3 w-3 shrink-0"
+        strokeWidth={2.25}
+      />
       <span className="truncate">{communityLabel}</span>
     </span>
   );

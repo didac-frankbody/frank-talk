@@ -11,10 +11,6 @@ export default {
         "2xs": "0.6875rem", // 11px — meta-text workhorse (timestamps, badges)
         "3xs": "0.5rem", // 8px — tiny glyphs / micro labels
         badge: "0.625rem", // 10px — compact status badges
-        // 15px — the frank talk wordmark capsules (Pitch 600, .04em tracking).
-        // Sits between `text-sm` and `text-base`; the capsule pair is built to
-        // this size and drifts visibly at either neighbour.
-        wordmark: "0.9375rem",
         // 19px — channel name in the channel header (Pitch 600, lowercase).
         "channel-title": "1.1875rem",
         // 40px — onboarding page titles (tightened tracking for large display type)

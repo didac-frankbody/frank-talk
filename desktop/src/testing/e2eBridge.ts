@@ -1880,7 +1880,7 @@ function buildMockConfigSurface(pubkey: string): {
   };
 
   // Mixed-provenance showcase — top-level rows carry different origins so the
-  // panel witnesses distinct provenance labels in one frame: "Set in Buzz",
+  // panel witnesses distinct provenance labels in one frame: "Set in frank talk",
   // "Inherited from template", "From config file (...)" and
   // "From environment variable (...)".
   const multiOriginSurface = {

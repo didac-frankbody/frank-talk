@@ -154,10 +154,12 @@
    * Founders Grotesk Text carries all body and UI copy (see
    * `globals/fonts.css`). The family is set here; the weight deliberately is
    * NOT. The brand default for long-form body copy is Light 300, but this app
-   * is overwhelmingly small 14px UI chrome, where the brand's own guidance is
-   * to use 400–600 because 300 goes too faint on screen. Pinning `body` to 300
-   * would thin every unstyled label in the app at once. Message body copy opts
-   * into `font-light` at its own call site instead.
+   * is overwhelmingly small UI chrome, where the brand's own guidance is to use
+   * 400–600 because 300 goes too faint on screen. Pinning `body` to 300 would
+   * thin every unstyled label in the app at once, so the inherited weight stays
+   * 400 — which is inside the handoff's own "Founders 300–400" range for message
+   * body. Light 300 is for long-form copy, and there is none of that here; a
+   * screen that grows some should reach for `font-light` locally.
    */
   body {
     @apply bg-background text-foreground antialiased;
