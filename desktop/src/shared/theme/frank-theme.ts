@@ -73,16 +73,26 @@ export const FRANK_LIGHT_VARS: Readonly<Record<string, string>> = {
   "--secondary": "14 100% 96%",
   "--secondary-foreground": "351 20% 21%",
   "--muted": "14 100% 96%",
-  "--muted-foreground": "351 20% 45%",
+  // Soft ink, deliberately not grey (v2 spec value).
+  "--muted-foreground": "351 13% 48%",
   "--accent": "11 100% 89%",
   "--accent-foreground": "351 20% 21%",
   "--destructive": "351 20% 21%",
   "--destructive-foreground": "0 0% 100%",
-  // Pre-composited ink/10 and ink/14 over the off-white surface — see the
-  // note above on why these carry no slash.
-  "--border": "0 11% 91%",
-  "--input": "9 10% 88%",
+  // Resolved ink tints (≈ ink 10% / 14% over the off-white page) rather than
+  // ink + alpha — see the note above on why these carry no slash. Values from
+  // the v2 spec's code/theme.css.
+  "--border": "9 16% 91%",
+  "--input": "9 11% 88%",
   "--ring": "11 100% 82%",
+
+  // Charts previously kept whatever `createThemeVars()` derived, which is
+  // off-brand. These are the concern-palette fills from the v2 spec.
+  "--chart-1": "11 100% 82%",
+  "--chart-2": "168 89% 83%",
+  "--chart-3": "202 88% 74%",
+  "--chart-4": "20 77% 81%",
+  "--chart-5": "227 100% 87%",
 
   "--sidebar": "351 20% 21%",
   "--sidebar-background": "351 20% 21%",
@@ -109,61 +119,73 @@ export const FRANK_LIGHT_VARS: Readonly<Record<string, string>> = {
 
   // The huddle chrome is a dark overlay in every theme; tint it to brand ink
   // rather than leaving it on the derived neutral greys.
-  "--huddle-drawer-surface": "351 20% 12%",
-  "--huddle-control-surface": "351 16% 22%",
-  "--huddle-control-hover-surface": "351 14% 27%",
-  "--huddle-control-chevron-surface": "351 18% 17%",
-  "--huddle-control-chevron-hover-surface": "351 16% 22%",
+  "--huddle-drawer-surface": "353 21% 12%",
+  "--huddle-control-surface": "351 20% 21%",
+  "--huddle-control-hover-surface": "351 20% 26%",
+  "--huddle-control-chevron-surface": "353 21% 17%",
+  "--huddle-control-chevron-hover-surface": "351 20% 23%",
   "--huddle-control-foreground": "0 0% 98%",
-  "--huddle-popover-surface": "351 18% 17%",
-  "--huddle-popover-border": "351 14% 27%",
-  "--huddle-tooltip-surface": "351 16% 22%",
+  "--huddle-popover-surface": "353 21% 17%",
+  "--huddle-popover-border": "351 20% 26%",
+  "--huddle-tooltip-surface": "351 20% 21%",
   "--huddle-tooltip-foreground": "0 0% 98%",
 };
 
 /**
- * frank talk (dark). **Derived, not specified.** The handoff's token map is
- * light-only, and its shell is already ink — so "dark" cannot be a simple
- * inversion. The rule applied here: the ink shell stays put and the *content*
- * surface descends to meet it, so the app reads as one continuous dark object
- * rather than a pale card in a dark frame. Pink keeps its exact brand hue and
- * stays a background; type goes to blush-white rather than pure white, which
- * would glare against ink.
+ * frank talk (dark). **Now specified, no longer derived.**
+ *
+ * The first handoff was light-only, so this map started as a derivation. The
+ * second handoff supplies a `.dark` block, and these are its values: the ink
+ * shell stays put and the content canvas descends one step deeper, which is the
+ * same rule the derivation had arrived at — but with the design's own numbers.
+ *
+ * Note the spec frames its `.dark` block as a fallback, on the basis that "frank
+ * talk ships one theme". That is not how this app is set up: `frank` and
+ * `frank-dark` are a registered `THEME_PAIRS` pair with dark as the default and
+ * Light/System reachable from Appearance settings, which is what was asked for
+ * after that handoff was written. So this is a real theme, not a fallback.
  */
 export const FRANK_DARK_VARS: Readonly<Record<string, string>> = {
   "--radius": "0.5rem",
-  "--background": "351 18% 13%",
-  "--foreground": "14 100% 96%",
-  "--card": "351 19% 16%",
-  "--card-foreground": "14 100% 96%",
-  "--popover": "351 19% 18%",
-  "--popover-foreground": "14 100% 96%",
+  "--background": "353 21% 12%",
+  "--foreground": "12 100% 99%",
+  "--card": "353 21% 15%",
+  "--card-foreground": "12 100% 99%",
+  "--popover": "353 21% 15%",
+  "--popover-foreground": "12 100% 99%",
   "--primary": "11 100% 82%",
   "--primary-foreground": "351 20% 21%",
-  "--secondary": "351 16% 22%",
-  "--secondary-foreground": "14 100% 96%",
-  "--muted": "351 16% 22%",
-  "--muted-foreground": "12 24% 72%",
-  "--accent": "351 16% 26%",
-  "--accent-foreground": "14 100% 96%",
-  // Ink is the shell colour here, so an ink destructive fill would vanish.
-  // Invert the pairing: pale brand type on the dark surface, still no red.
-  "--destructive": "14 100% 96%",
+  "--secondary": "351 20% 21%",
+  "--secondary-foreground": "12 100% 99%",
+  "--muted": "351 20% 21%",
+  "--muted-foreground": "11 30% 72%",
+  "--accent": "351 20% 26%",
+  "--accent-foreground": "12 100% 99%",
+  // Ink is the shell colour here, so an ink destructive fill would vanish. The
+  // spec inverts the pairing to pink-on-ink — still no red in the brand.
+  "--destructive": "11 100% 82%",
   "--destructive-foreground": "351 20% 21%",
-  "--border": "351 14% 25%",
-  "--input": "351 14% 28%",
+  "--border": "351 20% 28%",
+  "--input": "351 20% 28%",
   "--ring": "11 100% 82%",
+
+  "--chart-1": "11 100% 82%",
+  "--chart-2": "168 89% 83%",
+  "--chart-3": "202 88% 74%",
+  "--chart-4": "20 77% 81%",
+  "--chart-5": "227 100% 87%",
 
   "--sidebar": "353 21% 15%",
   "--sidebar-background": "353 21% 15%",
-  "--sidebar-foreground": "14 100% 96%",
-  "--sidebar-rail": "353 22% 11%",
+  "--sidebar-foreground": "0 0% 100%",
+  "--sidebar-rail": "353 21% 15%",
   "--sidebar-primary": "11 100% 82%",
   "--sidebar-primary-foreground": "351 20% 21%",
   "--sidebar-active": "11 100% 82%",
   "--sidebar-active-foreground": "351 20% 21%",
+  // NOT the spec's plain white — see the header note on call sites.
   "--sidebar-accent": "351 15% 22%",
-  "--sidebar-accent-foreground": "14 100% 96%",
+  "--sidebar-accent-foreground": "0 0% 100%",
   "--sidebar-border": "351 14% 25%",
   "--sidebar-ring": "11 100% 82%",
 

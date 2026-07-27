@@ -264,11 +264,11 @@
 }
 
 /*
- * The logo zone: the block at the top of the sidebar holding the wordmark
- * capsules and the tagline. 88px tall with a 2px white/12% rule beneath it.
- * The capsules themselves are built in `FrankWordmark.tsx` with utilities; only
- * the zone's frame lives here because it overrides the shell's own header
- * padding.
+ * The logo zone: the block at the top of the sidebar holding the wordmark and
+ * the tagline. 88px tall with a 2px white/12% rule beneath it. The wordmark
+ * itself is the supplied lockup asset (`FrankWordmark.tsx`) and is never
+ * re-typeset; only the zone's frame lives here, because it overrides the
+ * shell's own header padding.
  */
 :root[data-frank-theme] [data-frank-logo-zone] {
   border-bottom: 2px solid rgba(255, 255, 255, 0.12);

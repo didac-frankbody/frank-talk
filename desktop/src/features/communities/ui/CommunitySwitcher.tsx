@@ -7,6 +7,7 @@ import {
   Plus,
   Settings2,
   Ticket,
+  Users,
   WifiOff,
 } from "lucide-react";
 import * as React from "react";
@@ -60,6 +61,12 @@ type CommunitySwitcherProps = {
   onRemoveCommunity: (id: string) => void;
 };
 
+/**
+ * The active community's icon, or a glyph when it has none.
+ *
+ * The fallback is a line icon rather than an emoji: frank talk keeps emoji to
+ * user-generated content (reactions, statuses) and out of UI chrome.
+ */
 export function CommunityEmojiIcon({
   className,
   iconUrl,
@@ -84,7 +91,7 @@ export function CommunityEmojiIcon({
   }
   return (
     <span aria-hidden="true" className={className}>
-      <span className="-translate-y-px leading-normal">🐝</span>
+      <Users className="h-3.5 w-3.5" />
     </span>
   );
 }

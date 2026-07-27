@@ -153,6 +153,12 @@ frank talk is set in **Pitch Semibold** (wordmark, channel names, numbers) and *
 
 The `@font-face` pipeline is wired end to end. Drop the 14 supplied files into [`desktop/public/fonts/`](desktop/public/fonts/README.md) and the app picks them up on the next dev-server start. Until then the stacks fall through to a system sans and a monospace stand-in for Pitch: everything works, it just isn't on brand. That directory has a `.gitignore` so the binaries can't be committed by accident.
 
+## Wordmark and app icon
+
+The wordmark is the supplied lockup, served from `desktop/public/frank-talk-wordmark.png` and rendered by `FrankWordmark`. It is never re-typeset in CSS, and it is deliberately not theme-tinted — replacing that one file changes the logo everywhere it appears.
+
+**The app icon set is still outstanding.** The window/dock/installer icons in `desktop/src-tauri/icons/` and the `app-icon@2x/@3x.png` pair in `desktop/public/` are still the upstream Buzz mark, so it can still surface in a few small square slots (the Nostr bind consent dialog, the mobile-pairing QR centre, the agent runtime row in Settings → Doctor). Those want a produced icon cut from the lockup rather than an improvised crop, so they were left alone. The favicon (`desktop/public/frank-talk.svg`) is an interim square reduction of the lockup and is marked as such in the file.
+
 ---
 
 ## Theme
