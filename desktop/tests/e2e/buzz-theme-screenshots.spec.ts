@@ -524,7 +524,6 @@ test("settings content uses the same inset surface as the main app", async ({
   await seedTheme(page, "buzz");
   await installMockBridge(page);
   await page.goto("/", { waitUntil: "domcontentloaded" });
-  const searchBox = await page.getByTestId("open-search").boundingBox();
   await page.getByTestId("open-settings").click();
   await page.getByTestId("profile-popover-settings").click();
 
@@ -541,15 +540,24 @@ test("settings content uses the same inset surface as the main app", async ({
 
   const viewBox = await settingsView.boundingBox();
   const surfaceBox = await contentSurface.boundingBox();
-  expect(searchBox).not.toBeNull();
   expect(backToAppBox).not.toBeNull();
   expect(viewBox).not.toBeNull();
   expect(surfaceBox).not.toBeNull();
-  if (!searchBox || !backToAppBox || !viewBox || !surfaceBox) {
+  if (!backToAppBox || !viewBox || !surfaceBox) {
     throw new Error("Settings layout is missing");
   }
 
-  expect(Math.abs(backToAppBox.y - searchBox.y)).toBeLessThanOrEqual(0.5);
+  /*
+   * This used to assert that "Back to app" shared a y with the app sidebar's
+   * search row. That relationship is gone by design: the app sidebar now leads
+   * with the 88px frank talk logo zone, so its search sits exactly one logo zone
+   * lower, while the settings sidebar has no wordmark above it. Re-asserting the
+   * old alignment would only pin a coincidence.
+   *
+   * What is still structural is that "Back to app" rides inside the inset
+   * content card rather than floating in the top chrome strip above it.
+   */
+  expect(backToAppBox.y).toBeGreaterThan(surfaceBox.y);
 
   // Match the normal app shell: a fixed 40px top chrome strip, then a 1px
   // top/left inset and 8px right/bottom inset around the rounded content card.
