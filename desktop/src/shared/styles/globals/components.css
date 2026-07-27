@@ -176,9 +176,9 @@
   }
 
   .buzz-onboarding-neutral-theme.buzz-startup-shell {
-    /* Dot grid over the chartreuse→light-blue gradient (dots layer first so
-       they sit on top). The welcome page overrides this with dots over a flat
-       chartreuse fill below. */
+    /* Dot grid over the pink→blush gradient (dots layer first so they sit on
+       top). The welcome page overrides this with dots over a flat pink field
+       below. */
     background-image:
       radial-gradient(circle, rgb(0 0 0 / 0.08) 1px, transparent 1px),
       linear-gradient(
@@ -193,8 +193,8 @@
 
   .buzz-onboarding-neutral-theme.buzz-startup-shell.buzz-onboarding-welcome {
     background-color: var(--buzz-welcome-chartreuse);
-    /* Landing is a flat chartreuse field, so the docked-footer scrim must match
-       it (not the gradient's light-blue bottom) to stay invisible. */
+    /* Landing is a flat pink field, so the docked-footer scrim must match it
+       (not the gradient's blush bottom) to stay invisible. */
     --buzz-onboarding-shell-bottom: var(--buzz-welcome-chartreuse);
     /* Subtle dot grid: 2px dots spaced on a 24px lattice. */
     background-image: radial-gradient(
@@ -205,40 +205,55 @@
     background-size: 24px 24px;
   }
 
+  /*
+   * The onboarding palette.
+   *
+   * First-run happens before a community — and therefore before a theme —
+   * exists, so this subtree carries its own self-contained token set rather
+   * than reading the runtime theme vars. It used to be Buzz's chartreuse and
+   * olive; these are the frank talk brand values, same variables, same
+   * relationships.
+   *
+   * `--buzz-welcome-chartreuse` keeps its name because a dozen call sites use
+   * it as "the onboarding accent" — chip fills, focus rings, the landing field.
+   * Renaming it is a wider change than the re-skin needs. It is Original Pink
+   * now.
+   */
   .buzz-onboarding-neutral-theme {
-    /* Landing "chartreuse" — the welcome background; reused for the CTA label. */
-    --buzz-welcome-chartreuse: #d7d72e;
+    /* Original Pink — the landing field, and the accent for chips and rings. */
+    --buzz-welcome-chartreuse: #ffb6a5;
     /* Bottom stop of the onboarding shell gradient; also the docked-footer
        scrim color so content scrolling under the CTA fades into the page. */
-    --buzz-onboarding-shell-bottom: #d7e7f6;
-    /* Label color for the primary onboarding CTA (light blue on the dark pill). */
-    --buzz-onboarding-cta-label: #d7e6f0;
-    /* Olive ink for the backup step's private key and its "never share" caption,
-       reading against the fuzzy-white key frame. */
-    --buzz-onboarding-backup-ink: #717106;
-    --background: 0 0% 100%;
-    --foreground: 0 0% 9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 9%;
-    --buzz-onboarding-emoji-picker-background: 245, 245, 245;
-    --buzz-onboarding-emoji-picker-color: 23, 23, 23;
+    --buzz-onboarding-shell-bottom: #ffefea;
+    /* Label color for the primary onboarding CTA — off-white on the ink pill.
+       Never pink: pink is a fill in this brand, never type. */
+    --buzz-onboarding-cta-label: #fffbfa;
+    /* Soft ink for the backup step's private key and its "never share" caption,
+       reading against the pale key frame. */
+    --buzz-onboarding-backup-ink: #8b6c70;
+    --background: 12 100% 99%;
+    --foreground: 351 20% 21%;
+    --primary: 351 20% 21%;
+    --primary-foreground: 12 100% 99%;
+    --secondary: 14 100% 96%;
+    --secondary-foreground: 351 20% 21%;
+    --muted: 14 100% 96%;
+    --muted-foreground: 351 13% 48%;
+    --accent: 11 100% 89%;
+    --accent-foreground: 351 20% 21%;
+    --border: 9 16% 91%;
+    --input: 9 11% 88%;
+    --ring: 11 100% 82%;
+    --buzz-onboarding-emoji-picker-background: 255, 251, 250;
+    --buzz-onboarding-emoji-picker-color: 63, 42, 45;
     --buzz-onboarding-emoji-picker-input: 255, 255, 255;
     --buzz-onboarding-avatar-dialog-bg: 255 255 255;
-    --buzz-onboarding-avatar-accent-bg: 240 240 205;
-    --buzz-onboarding-avatar-accent-fg: 113 113 6;
-    --buzz-onboarding-avatar-action-bg: 23 23 23;
-    --buzz-onboarding-avatar-action-fg: 240 240 205;
-    --buzz-onboarding-avatar-control-fg: 113 113 6;
-    --buzz-onboarding-avatar-dialog-shadow: 0 0 0;
+    --buzz-onboarding-avatar-accent-bg: 255 239 234;
+    --buzz-onboarding-avatar-accent-fg: 63 42 45;
+    --buzz-onboarding-avatar-action-bg: 63 42 45;
+    --buzz-onboarding-avatar-action-fg: 255 239 234;
+    --buzz-onboarding-avatar-control-fg: 139 108 112;
+    --buzz-onboarding-avatar-dialog-shadow: 63 42 45;
   }
 
   .buzz-onboarding-key-text {
@@ -248,28 +263,28 @@
   }
 
   .dark .buzz-onboarding-neutral-theme:not(.buzz-startup-shell) {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --buzz-onboarding-emoji-picker-background: 38, 38, 38;
-    --buzz-onboarding-emoji-picker-color: 250, 250, 250;
-    --buzz-onboarding-emoji-picker-input: 10, 10, 10;
-    --buzz-onboarding-avatar-dialog-bg: 24 24 20;
-    --buzz-onboarding-avatar-accent-bg: 211 211 163;
-    --buzz-onboarding-avatar-accent-fg: 24 24 20;
-    --buzz-onboarding-avatar-action-bg: 113 113 6;
-    --buzz-onboarding-avatar-action-fg: 240 240 205;
-    --buzz-onboarding-avatar-control-fg: 224 224 176;
+    --background: 353 21% 12%;
+    --foreground: 12 100% 99%;
+    --primary: 11 100% 82%;
+    --primary-foreground: 351 20% 21%;
+    --secondary: 351 20% 21%;
+    --secondary-foreground: 12 100% 99%;
+    --muted: 351 20% 21%;
+    --muted-foreground: 11 30% 72%;
+    --accent: 351 20% 26%;
+    --accent-foreground: 12 100% 99%;
+    --border: 351 20% 28%;
+    --input: 351 20% 28%;
+    --ring: 11 100% 82%;
+    --buzz-onboarding-emoji-picker-background: 46, 34, 37;
+    --buzz-onboarding-emoji-picker-color: 255, 251, 250;
+    --buzz-onboarding-emoji-picker-input: 35, 26, 28;
+    --buzz-onboarding-avatar-dialog-bg: 46 34 37;
+    --buzz-onboarding-avatar-accent-bg: 255 208 198;
+    --buzz-onboarding-avatar-accent-fg: 63 42 45;
+    --buzz-onboarding-avatar-action-bg: 255 182 165;
+    --buzz-onboarding-avatar-action-fg: 63 42 45;
+    --buzz-onboarding-avatar-control-fg: 255 208 198;
     --buzz-onboarding-avatar-dialog-shadow: 0 0 0;
   }
 
@@ -278,56 +293,56 @@
     .buzz-onboarding-neutral-theme[data-system-color-scheme="light"]:not(
       .buzz-startup-shell
     ) {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 9%;
-    --buzz-onboarding-emoji-picker-background: 245, 245, 245;
-    --buzz-onboarding-emoji-picker-color: 23, 23, 23;
+    --background: 12 100% 99%;
+    --foreground: 351 20% 21%;
+    --primary: 351 20% 21%;
+    --primary-foreground: 12 100% 99%;
+    --secondary: 14 100% 96%;
+    --secondary-foreground: 351 20% 21%;
+    --muted: 14 100% 96%;
+    --muted-foreground: 351 13% 48%;
+    --accent: 11 100% 89%;
+    --accent-foreground: 351 20% 21%;
+    --border: 9 16% 91%;
+    --input: 9 11% 88%;
+    --ring: 11 100% 82%;
+    --buzz-onboarding-emoji-picker-background: 255, 251, 250;
+    --buzz-onboarding-emoji-picker-color: 63, 42, 45;
     --buzz-onboarding-emoji-picker-input: 255, 255, 255;
     --buzz-onboarding-avatar-dialog-bg: 255 255 255;
-    --buzz-onboarding-avatar-accent-bg: 240 240 205;
-    --buzz-onboarding-avatar-accent-fg: 113 113 6;
-    --buzz-onboarding-avatar-action-bg: 23 23 23;
-    --buzz-onboarding-avatar-action-fg: 240 240 205;
-    --buzz-onboarding-avatar-control-fg: 113 113 6;
+    --buzz-onboarding-avatar-accent-bg: 255 239 234;
+    --buzz-onboarding-avatar-accent-fg: 63 42 45;
+    --buzz-onboarding-avatar-action-bg: 63 42 45;
+    --buzz-onboarding-avatar-action-fg: 255 239 234;
+    --buzz-onboarding-avatar-control-fg: 139 108 112;
     --buzz-onboarding-avatar-dialog-shadow: 0 0 0;
   }
 
   .buzz-onboarding-neutral-theme[data-system-color-scheme="dark"]:not(
     .buzz-startup-shell
   ) {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --buzz-onboarding-emoji-picker-background: 38, 38, 38;
-    --buzz-onboarding-emoji-picker-color: 250, 250, 250;
-    --buzz-onboarding-emoji-picker-input: 10, 10, 10;
-    --buzz-onboarding-avatar-dialog-bg: 24 24 20;
-    --buzz-onboarding-avatar-accent-bg: 211 211 163;
-    --buzz-onboarding-avatar-accent-fg: 24 24 20;
-    --buzz-onboarding-avatar-action-bg: 113 113 6;
-    --buzz-onboarding-avatar-action-fg: 240 240 205;
-    --buzz-onboarding-avatar-control-fg: 224 224 176;
+    --background: 353 21% 12%;
+    --foreground: 12 100% 99%;
+    --primary: 11 100% 82%;
+    --primary-foreground: 351 20% 21%;
+    --secondary: 351 20% 21%;
+    --secondary-foreground: 12 100% 99%;
+    --muted: 351 20% 21%;
+    --muted-foreground: 11 30% 72%;
+    --accent: 351 20% 26%;
+    --accent-foreground: 12 100% 99%;
+    --border: 351 20% 28%;
+    --input: 351 20% 28%;
+    --ring: 11 100% 82%;
+    --buzz-onboarding-emoji-picker-background: 46, 34, 37;
+    --buzz-onboarding-emoji-picker-color: 255, 251, 250;
+    --buzz-onboarding-emoji-picker-input: 35, 26, 28;
+    --buzz-onboarding-avatar-dialog-bg: 46 34 37;
+    --buzz-onboarding-avatar-accent-bg: 255 208 198;
+    --buzz-onboarding-avatar-accent-fg: 63 42 45;
+    --buzz-onboarding-avatar-action-bg: 255 182 165;
+    --buzz-onboarding-avatar-action-fg: 63 42 45;
+    --buzz-onboarding-avatar-control-fg: 255 208 198;
     --buzz-onboarding-avatar-dialog-shadow: 0 0 0;
   }
 

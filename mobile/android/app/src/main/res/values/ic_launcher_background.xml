@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="ic_launcher_background">#000</color>
+  <!-- Brand ink. The adaptive icon's foreground is the frank talk mark, which
+       carries its own white field, so this shows only in the masked margin. -->
+  <color name="ic_launcher_background">#3F2A2D</color>
+  <!-- The splash field behind the centred mark, shared by both launch_background
+       layer-lists. Was @android:color/black. -->
+  <color name="launch_background">#3F2A2D</color>
 </resources>

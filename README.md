@@ -141,6 +141,24 @@ just desktop-dev  # terminal 2: frontend dev server
 
 For the native shell instead of the browser dev server, run `pnpm tauri dev` from `desktop/`.
 
+### Installing it properly
+
+To get something you install rather than run from a terminal:
+
+```bash
+just installer
+```
+
+That compiles the five sidecar binaries, builds the app, and bundles it for your platform — a `.dmg` on macOS, `.deb`/`.AppImage` on Linux, `.msi` on Windows. Paths are printed at the end. It takes a while the first time; the Rust workspace is the slow part.
+
+The bundle is **unsigned**, so macOS blocks it on first open. Either right-click the app in Applications and choose Open, or:
+
+```bash
+xattr -dr com.apple.quarantine "/Applications/frank talk.app"
+```
+
+The installed app still needs a relay to talk to — `just relay` locally, or point it at a deployed one.
+
 Want a single-node / VPS relay instead of the local-dev stack? Use the production Compose bundle in [`deploy/compose/`](deploy/compose/README.md) (Postgres, Redis, MinIO, optional Caddy/TLS). The root [`docker-compose.yml`](docker-compose.yml) is for day-to-day development only.
 
 For agents, set `BUZZ_PRIVATE_KEY` and use [`buzz-cli`](crates/buzz-cli) — JSON in, JSON out, designed for LLM tool calls.
@@ -157,7 +175,11 @@ The `@font-face` pipeline is wired end to end. Drop the 14 supplied files into [
 
 The wordmark is the supplied lockup, served from `desktop/public/frank-talk-wordmark.png` and rendered by `FrankWordmark`. It is never re-typeset in CSS, and it is deliberately not theme-tinted — replacing that one file changes the logo everywhere it appears.
 
-**The app icon set is still outstanding.** The window/dock/installer icons in `desktop/src-tauri/icons/` and the `app-icon@2x/@3x.png` pair in `desktop/public/` are still the upstream Buzz mark, so it can still surface in a few small square slots (the Nostr bind consent dialog, the mobile-pairing QR centre, the agent runtime row in Settings → Doctor). Those want a produced icon cut from the lockup rather than an improvised crop, so they were left alone. The favicon (`desktop/public/frank-talk.svg`) is an interim square reduction of the lockup and is marked as such in the file.
+The app icon ships in two variants, kept as sources in `desktop/src-tauri/icons/source/`: white ground with an ink mark (the default — this is the packaged app, dock and installer icon, and the favicon) and its inverse for dark surfaces. In-app slots pick the variant that matches the active theme via `AppIcon`; each carries a border in the opposite value, so neither melts into its own background. To change the icon, replace the two sources and regenerate:
+
+```bash
+cd desktop && pnpm exec tauri icon src-tauri/icons/source/frank-talk-icon-light.png -o src-tauri/icons
+```
 
 ---
 

@@ -14,6 +14,8 @@ use crate::{
     util::now_iso,
 };
 
+mod desktop_process;
+
 mod path;
 pub(in crate::managed_agents) use path::build_augmented_path;
 pub(crate) use path::compose_path_entries;
@@ -853,15 +855,6 @@ pub(crate) fn collect_same_instance_orphans(
     std::collections::HashSet::new()
 }
 
-/// Binary names for the Buzz desktop/Tauri process. Used by dead-instance
-/// detection to confirm the owning desktop is still alive.
-const DESKTOP_BINARY_NAMES: &[&str] = &["Buzz", "buzz-desktop", "buzz_desktop"];
-
-/// Check if a process name matches a known Buzz desktop binary.
-fn is_desktop_binary(name: &str) -> bool {
-    DESKTOP_BINARY_NAMES.contains(&name)
-}
-
 /// Check whether `buf` contains `id` as a complete identifier — not as a
 /// prefix of a longer dotted name. The identifier appears in the Tauri config
 /// JSON as `"identifier":"xyz.block.buzz.app.dev"` and in environment entries
@@ -987,7 +980,7 @@ fn desktop_is_alive_for_instance(instance_id: &str) -> bool {
             continue;
         }
         let name = String::from_utf8_lossy(&name_buf[..len as usize]);
-        if !is_desktop_binary(&name) {
+        if !desktop_process::is_desktop_binary(&name) {
             continue;
         }
         // Verify UID.
@@ -1049,7 +1042,7 @@ fn desktop_is_alive_for_instance(instance_id: &str) -> bool {
         let Ok(comm) = std::fs::read_to_string(format!("/proc/{pid}/comm")) else {
             continue;
         };
-        if !is_desktop_binary(comm.trim()) {
+        if !desktop_process::is_desktop_binary(comm.trim()) {
             continue;
         }
         // Check cmdline for the identifier with boundary anchoring.

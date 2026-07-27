@@ -162,7 +162,7 @@ class _MessageList extends HookConsumerWidget {
             ),
             const SizedBox(height: Grid.half),
             Text(
-              'Be the first to say something!',
+              'Be the first to say something',
               style: context.textTheme.bodySmall?.copyWith(
                 color: context.colors.onSurfaceVariant,
               ),

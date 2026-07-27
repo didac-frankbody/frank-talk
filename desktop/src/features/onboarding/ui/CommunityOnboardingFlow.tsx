@@ -49,12 +49,6 @@ function isRelayMembershipDeniedError(error: unknown): boolean {
   );
 }
 
-const STARTER_PERSONA_ANIMATIONS: Record<string, string> = {
-  Fizz: "/onboarding/starter-team/fizz.png",
-  Honey: "/onboarding/starter-team/honey.png",
-  Bumble: "/onboarding/starter-team/bumble.png",
-};
-
 /** Fade duration for the "entering" curtain over the mounting app. */
 const ENTERING_CURTAIN_FADE_MS = 500;
 /**
@@ -625,28 +619,24 @@ export function CommunityOnboardingFlow({
               <div className="flex w-full flex-1 items-center justify-center py-10">
                 {starterPersonas.length > 0 ? (
                   <div className="flex flex-wrap justify-center gap-8">
+                    {/*
+                      Each starter agent shows its own avatar, or an initials
+                      tile when it has none. The three built-ins used to render
+                      animated bee characters here instead — Buzz's mascots, not
+                      frank talk's.
+                    */}
                     {starterPersonas.map((persona) => {
-                      const animationUrl =
-                        STARTER_PERSONA_ANIMATIONS[persona.displayName];
                       return (
                         <div
                           className="flex w-40 flex-col items-center gap-3"
                           key={persona.id}
                         >
-                          {animationUrl ? (
-                            <img
-                              alt={`${persona.displayName} animated character`}
-                              className="h-40 w-40 object-contain"
-                              data-testid={`starter-persona-${persona.displayName.toLowerCase()}`}
-                              src={animationUrl}
-                            />
-                          ) : (
-                            <ProfileAvatar
-                              avatarUrl={persona.avatarUrl}
-                              className="h-28 w-28 text-3xl"
-                              label={persona.displayName}
-                            />
-                          )}
+                          <ProfileAvatar
+                            avatarUrl={persona.avatarUrl}
+                            className="h-28 w-28 text-3xl"
+                            label={persona.displayName}
+                            testId={`starter-persona-${persona.displayName.toLowerCase()}`}
+                          />
                           <span className="font-mono text-xs font-medium uppercase tracking-[0.15em]">
                             {persona.displayName}
                           </span>

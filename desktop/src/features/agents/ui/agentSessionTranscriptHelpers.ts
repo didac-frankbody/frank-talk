@@ -214,6 +214,19 @@ export function parseSystemPromptSections(
   return sections;
 }
 
+/**
+ * `[Buzz event: …]` is the harness's wire marker for an injected relay event and
+ * it stays that way: the desktop and the mobile client both parse it, and an
+ * older sidecar paired with a newer app has to keep working. So the rename
+ * happens at the render boundary — the parsed title stays raw for matching, and
+ * only the word the user reads is rebranded.
+ */
+const WIRE_EVENT_SECTION_TITLE = /^Buzz event\b/;
+
+export function displaySectionTitle(title: string): string {
+  return title.replace(WIRE_EVENT_SECTION_TITLE, "frank talk event");
+}
+
 function parsePromptSections(text: string): PromptSection[] {
   const sections: PromptSection[] = [];
   let current: PromptSection | null = null;

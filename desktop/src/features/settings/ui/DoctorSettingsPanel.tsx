@@ -24,6 +24,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/shared/ui/alert-dialog";
+import { useAppIcon } from "@/shared/ui/frank-logo/AppIcon";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,12 +35,16 @@ import { SectionHeader } from "@/shared/ui/PageHeader";
 import { Spinner } from "@/shared/ui/spinner";
 import { Switch } from "@/shared/ui/switch";
 
+// The built-in agent's own logo is the app icon, which is theme-aware, so it is
+// resolved per render in `RuntimeLogo` rather than pinned here.
 const RUNTIME_LOGO_URLS: Record<string, string> = {
-  "buzz-agent": "/app-icon@2x.png",
   claude: "/runtime-icons/claude.png",
   codex: "/runtime-icons/codex.png",
   goose: "/runtime-icons/goose.svg",
 };
+
+/** Runtime whose logo is the app's own icon. */
+const BUILT_IN_AGENT_RUNTIME_ID = "buzz-agent";
 
 const RUNTIME_LOGO_SCALE: Record<string, string> = {
   "buzz-agent": "scale-110",
@@ -61,7 +66,11 @@ function runtimeInstallGuideLabel(runtime: AcpRuntimeCatalogEntry) {
 }
 
 function RuntimeLogo({ runtime }: { runtime: AcpRuntimeCatalogEntry }) {
-  const avatarUrl = RUNTIME_LOGO_URLS[runtime.id] ?? runtime.avatarUrl;
+  const appIcon = useAppIcon();
+  const avatarUrl =
+    runtime.id === BUILT_IN_AGENT_RUNTIME_ID
+      ? appIcon.src
+      : (RUNTIME_LOGO_URLS[runtime.id] ?? runtime.avatarUrl);
 
   return (
     <ProfileAvatar

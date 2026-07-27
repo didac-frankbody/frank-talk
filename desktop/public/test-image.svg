@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Test image">
+  <!--
+    A neutral stand-in image, served from the app origin so e2e specs have a real
+    same-origin asset to upload, paste as an avatar URL and hide behind a spoiler.
+    It replaced buzz.svg, which was an amber honeycomb — Buzz artwork shipping in
+    the built bundle for no reason other than being a convenient fixture.
+    Brand palette, in case a screenshot ever catches it.
+  -->
+  <rect width="512" height="512" rx="96" fill="#3F2A2D"/>
+  <circle cx="256" cy="256" r="132" fill="#FFB6A5"/>
+  <circle cx="256" cy="256" r="62" fill="#3F2A2D"/>
+</svg>

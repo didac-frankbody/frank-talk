@@ -2,6 +2,7 @@ import React from "react";
 import { ChevronDown } from "lucide-react";
 
 import { cn } from "@/shared/lib/cn";
+import { displaySectionTitle } from "./agentSessionTranscriptHelpers";
 import type { PromptSection } from "./agentSessionTypes";
 
 export function PromptSectionList({
@@ -50,7 +51,7 @@ export function PromptSectionAccordion({
                 !open && "line-clamp-2 wrap-break-word",
               )}
             >
-              {section.title}
+              {displaySectionTitle(section.title)}
             </div>
             <div
               className={cn(

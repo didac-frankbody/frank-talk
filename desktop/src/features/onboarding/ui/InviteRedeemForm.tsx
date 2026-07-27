@@ -435,7 +435,9 @@ export function InviteRedeemForm({
           aria-hidden={!showInvalidInviteTip}
           aria-live="polite"
           className={cn(
-            "absolute top-[calc(100%+2rem)] mt-4 min-h-5 w-full max-w-4xl text-center text-sm text-[#717106] transition-opacity duration-150 ease-out",
+            // The onboarding surfaces' soft ink, which this used to hardcode as
+            // Buzz olive.
+            "absolute top-[calc(100%+2rem)] mt-4 min-h-5 w-full max-w-4xl text-center text-sm text-[color:var(--buzz-onboarding-backup-ink)] transition-opacity duration-150 ease-out",
             showInvalidInviteTip ? "opacity-100" : "opacity-0",
           )}
           data-testid="invalid-invite-tip"
@@ -500,7 +502,7 @@ export function InviteRedeemForm({
               disabled={isRedeeming}
               id="community-api-token"
               onChange={(event) => setApiToken(event.target.value)}
-              placeholder="buzz_…"
+              placeholder="ft_…"
               type="password"
               value={apiToken}
             />

@@ -18,11 +18,13 @@ const ONBOARDING_CTA_SHAPE = "h-[2.375rem] rounded-full px-6";
 export const ONBOARDING_PRIMARY_CTA_CLASS = `${ONBOARDING_CTA_SHAPE} text-[var(--buzz-onboarding-cta-label)]`;
 
 /**
- * Primary-CTA styling for the landing screen only: the shared pill with the
- * chartreuse label (`--buzz-welcome-chartreuse`). The blue label is reserved
- * for the CTAs inside the steps.
+ * Primary-CTA styling for the landing screen.
+ *
+ * Same off-white label as the in-step CTAs. It used to take the chartreuse
+ * accent instead, which under frank talk would put Original Pink on an ink pill
+ * — and pink is a fill in this brand, never type.
  */
-export const ONBOARDING_LANDING_CTA_CLASS = `${ONBOARDING_CTA_SHAPE} text-[var(--buzz-welcome-chartreuse)]`;
+export const ONBOARDING_LANDING_CTA_CLASS = ONBOARDING_PRIMARY_CTA_CLASS;
 
 /**
  * Icon-control styling for onboarding surfaces that sit on the textured card:

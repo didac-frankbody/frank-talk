@@ -1526,6 +1526,10 @@ pub fn format_prompt(batch: &FlushBatch, args: &FormatPromptArgs<'_>) -> Vec<Str
                 format_event_block(batch.channel_id, args.channel_info, be, args.profile_lookup)
             )
         } else {
+            // `[Buzz event: …]` / `[Buzz events — …]` are wire markers, not
+            // display copy: the desktop and mobile transcript parsers locate
+            // the triggering-event section by the lowercased `"buzz event"`
+            // title prefix. Renaming these breaks transcript rendering.
             format!(
                 "[Buzz event: {}]\n{}",
                 be.prompt_tag,

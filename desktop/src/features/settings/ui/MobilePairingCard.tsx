@@ -211,7 +211,11 @@ function PairingDialog({
                   data-testid="mobile-pairing-qr-container"
                 >
                   <StyledQrCode
-                    centerImageSrc="/app-icon@2x.png"
+                    // The QR card is hardcoded white in both themes, so this one
+                    // slot always takes the ink-ground variant: a solid dark
+                    // mark reads as a deliberate centre marker, where the white
+                    // variant would be an outlined hole in the code.
+                    centerImageSrc="/app-icon-dark@2x.png"
                     data-testid="mobile-pairing-qr"
                     size={240}
                     title="Mobile pairing QR code"

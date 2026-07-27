@@ -2,7 +2,9 @@ import Flutter
 import UIKit
 import XCTest
 
-@testable import Buzz
+// The Swift module name is derived from PRODUCT_NAME via c99extidentifier, so
+// "frank talk" becomes frank_talk. Rename the product and this has to follow.
+@testable import frank_talk
 
 class RunnerTests: XCTestCase {
 

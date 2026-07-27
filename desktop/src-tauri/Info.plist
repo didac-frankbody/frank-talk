@@ -2,15 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!--
+        These two are what macOS shows in the menu bar, the Finder, the About
+        box and the force-quit list. They override tauri.conf.json's
+        productName, so both have to say frank talk or the installed app is
+        still called Buzz however the bundle is configured.
+    -->
     <key>CFBundleDisplayName</key>
-    <string>Buzz</string>
+    <string>frank talk</string>
     <key>CFBundleName</key>
-    <string>Buzz</string>
+    <string>frank talk</string>
+    <!-- Shown verbatim in the macOS permission prompts. -->
     <key>NSMicrophoneUsageDescription</key>
-    <string>Buzz needs microphone access for voice huddles.</string>
+    <string>frank talk needs microphone access for voice huddles.</string>
     <key>NSCameraUsageDescription</key>
-    <string>Buzz needs camera access to record animated avatars.</string>
+    <string>frank talk needs camera access to record animated avatars.</string>
     <key>NSLocalNetworkUsageDescription</key>
-    <string>Buzz uses your local network for optional Share Compute and local relay connections. Remote messaging does not require this access.</string>
+    <string>frank talk uses your local network for optional Share Compute and local relay connections. Remote messaging does not require this access.</string>
 </dict>
 </plist>

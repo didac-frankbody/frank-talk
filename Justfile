@@ -226,7 +226,44 @@ desktop-tauri-test-compiled-flags: _ensure-sidecar-stubs
       cargo test compiled_flag_matches_expected -- --ignored --nocapture
     echo "Both compiled states verified."
 
+# On macOS this drops a .dmg in
+# desktop/src-tauri/target/<target>/release/bundle/dmg/ that you can open and
+# drag into Applications. On Linux it produces .deb/.AppImage, on Windows .msi.
+#
+# Unlike `desktop-release-build` below, the five sidecar binaries are really
+# compiled rather than stubbed, so the agent features work in the installed app.
+# That is the slow part — expect the first run to take a while.
+#
+# The bundle is unsigned. macOS will refuse it on first open: right-click the
+# app in Applications and choose Open, or clear the quarantine flag with
+# `xattr -dr com.apple.quarantine "/Applications/frank talk.app"`.
+#
+# Build an installable frank talk app (.dmg on macOS) with working sidecars
+installer target="":
+    #!/usr/bin/env bash
+    set -euo pipefail
+    TARGET="{{target}}"
+    if [ -z "$TARGET" ]; then
+        TARGET=$(rustc -vV | sed -n 's|host: ||p')
+    fi
+    echo "==> Building sidecars for $TARGET"
+    cargo build --release --target "$TARGET" \
+        -p buzz-acp -p buzz-agent -p buzz-dev-mcp -p git-credential-nostr -p buzz-cli
+    echo "==> Staging sidecars"
+    mkdir -p desktop/src-tauri/binaries
+    for bin in buzz-acp buzz-agent buzz-dev-mcp git-credential-nostr buzz; do
+        cp "target/$TARGET/release/$bin" "desktop/src-tauri/binaries/${bin}-${TARGET}"
+    done
+    echo "==> Building the app bundle"
+    cd {{desktop_dir}} && pnpm tauri build --features mesh-llm --target "$TARGET"
+    echo
+    echo "Bundles:"
+    find src-tauri/target/"$TARGET"/release/bundle -maxdepth 2 -type f \
+        \( -name '*.dmg' -o -name '*.deb' -o -name '*.AppImage' -o -name '*.msi' \) -print
+
 # Build the full desktop Tauri app locally (unsigned, for testing)
+# Sidecar binaries are STUBBED here — the bundle launches but its agent features
+# do not work. Use `just installer` for something you can actually install.
 # Sidecar binary list must stay in sync with _ensure-sidecar-stubs above.
 # pnpm install is unconditional here: release builds must start from a clean dep tree.
 desktop-release-build target="aarch64-apple-darwin":

@@ -170,25 +170,19 @@ export function InvitePage({ code }: { code: string }) {
     return () => window.document.removeEventListener("keydown", closeOnEscape);
   }, [closeMacChoice, showMacChoice]);
 
+  // The field is Original Pink → blush, the same landing field the desktop
+  // onboarding uses. Type stays on white cards, so it is ink throughout.
   return (
-    <div
-      className="flex flex-1 flex-col items-center justify-center px-4 py-16 text-center"
-      style={{
-        backgroundImage: "linear-gradient(180deg, #D7D72E 0%, #D7E7F6 100%)",
-      }}
-    >
+    <div className="flex flex-1 flex-col items-center justify-center bg-linear-to-b from-frank-pink to-frank-blush px-4 py-16 text-center">
       <div className="w-full max-w-xl space-y-4">
         <div className="flex w-full flex-col items-center rounded-3xl bg-white px-6 py-10 sm:px-12 sm:py-12">
-          <div
-            className="h-12 w-12 overflow-hidden bg-black"
-            style={{ borderRadius: "22.37%" }}
-          >
-            <img alt="frank talk" className="h-full w-full" src={buzzAppIcon} />
-          </div>
-          <h1 className="mt-4 text-2xl font-semibold tracking-tight text-black">
+          {/* The mark ships with its own rounded ground, so it needs neither a
+              squircle mask nor a backing fill. */}
+          <img alt="frank talk" className="h-12 w-12" src={buzzAppIcon} />
+          <h1 className="mt-4 text-2xl font-semibold tracking-tight text-frank-ink">
             You&apos;re invited to
           </h1>
-          <p className="mt-9 font-mono text-lg text-black/70">{host}</p>
+          <p className="mt-9 font-mono text-lg text-frank-ink/70">{host}</p>
 
           <div
             className={`grid w-full max-w-md overflow-hidden transition-[grid-template-rows,margin,opacity,transform] duration-[220ms] [transition-timing-function:cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none ${
@@ -214,7 +208,7 @@ export function InvitePage({ code }: { code: string }) {
           <div className="mt-9 w-full max-w-md space-y-2">
             {browserSigningAvailable ? (
               <Button
-                className="h-10 w-full bg-black text-white hover:bg-black/90 focus-visible:ring-black disabled:cursor-not-allowed disabled:bg-black/30 disabled:text-white/70"
+                className="h-10 w-full bg-frank-ink text-frank-off-white hover:bg-frank-ink/90 focus-visible:ring-frank-ink disabled:cursor-not-allowed disabled:opacity-40"
                 disabled={disabled}
                 onClick={joinInBrowser}
               >
@@ -226,8 +220,8 @@ export function InvitePage({ code }: { code: string }) {
                 asChild
                 className={`h-10 w-full ${
                   browserSigningAvailable
-                    ? "border border-black bg-white text-black hover:bg-black/5"
-                    : "bg-black text-white hover:bg-black/90 focus-visible:ring-black"
+                    ? "border border-frank-ink bg-white text-frank-ink hover:bg-frank-blush"
+                    : "bg-frank-ink text-frank-off-white hover:bg-frank-ink/90 focus-visible:ring-frank-ink"
                 }`}
               >
                 <a
@@ -238,10 +232,10 @@ export function InvitePage({ code }: { code: string }) {
               </Button>
             ) : (
               <Button
-                className={`h-10 w-full disabled:cursor-not-allowed disabled:bg-black/30 disabled:text-white/70 ${
+                className={`h-10 w-full disabled:cursor-not-allowed disabled:opacity-40 ${
                   browserSigningAvailable
-                    ? "border border-black bg-white text-black hover:bg-black/5"
-                    : "bg-black text-white hover:bg-black/90 focus-visible:ring-black"
+                    ? "border border-frank-ink bg-white text-frank-ink hover:bg-frank-blush"
+                    : "bg-frank-ink text-frank-off-white hover:bg-frank-ink/90 focus-visible:ring-frank-ink"
                 }`}
                 disabled={disabled}
                 onClick={openInvite}
@@ -249,19 +243,20 @@ export function InvitePage({ code }: { code: string }) {
                 Accept invite in frank talk
               </Button>
             )}
+            {/* No red in this brand — the alarm is carried by weight, not hue. */}
             {browserJoinError ? (
-              <p className="text-sm text-red-700" role="alert">
+              <p className="text-sm font-medium text-frank-ink" role="alert">
                 {browserJoinError}
               </p>
             ) : null}
           </div>
         </div>
-        <p className="flex h-[3.125rem] items-center justify-center rounded-2xl bg-white text-sm text-black/60">
+        <p className="flex h-[3.125rem] items-center justify-center rounded-2xl bg-white text-sm text-frank-ink/60">
           Don&apos;t have the app?{" "}
           <a
             aria-expanded={needsMacChoice ? showMacChoice : undefined}
             aria-haspopup={needsMacChoice ? "dialog" : undefined}
-            className="ml-1 font-medium text-black underline-offset-4 hover:text-black/70 hover:underline focus-visible:underline"
+            className="ml-1 font-medium text-frank-ink underline-offset-4 hover:text-frank-ink/70 hover:underline focus-visible:underline"
             href={downloadUrl}
             ref={downloadTriggerRef}
             rel="noreferrer"
@@ -281,25 +276,25 @@ export function InvitePage({ code }: { code: string }) {
         <div
           aria-label="Which Mac do you have?"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 text-left"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-frank-ink/50 p-4 text-left"
           role="dialog"
           onMouseDown={(event) => {
             if (event.currentTarget === event.target) closeMacChoice();
           }}
         >
-          <div className="w-full max-w-lg rounded-3xl bg-white p-7 text-black shadow-xl sm:p-9">
+          <div className="w-full max-w-lg rounded-3xl bg-white p-7 text-frank-ink shadow-xl sm:p-9">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-2xl font-semibold tracking-tight">
                   Which Mac do you have?
                 </h2>
-                <p className="mt-2 text-sm text-black/60">
+                <p className="mt-2 text-sm text-frank-ink/60">
                   Choose based on when your Mac was released.
                 </p>
               </div>
               <button
                 aria-label="Close"
-                className="text-2xl leading-none text-black/60 hover:text-black"
+                className="text-2xl leading-none text-frank-ink/60 hover:text-frank-ink"
                 type="button"
                 onClick={closeMacChoice}
               >
@@ -309,7 +304,7 @@ export function InvitePage({ code }: { code: string }) {
             <div className="mt-6 grid gap-3">
               <a
                 aria-disabled={choosingMacDownload}
-                className="rounded-2xl border border-black p-5 text-black no-underline hover:bg-black hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                className="rounded-2xl border border-frank-ink p-5 text-frank-ink no-underline hover:bg-frank-ink hover:text-frank-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-frank-ink aria-disabled:pointer-events-none aria-disabled:opacity-50"
                 href={BUZZ_RELEASES_URL}
                 onClick={(event) =>
                   void chooseMacDownload(event, {
@@ -325,7 +320,7 @@ export function InvitePage({ code }: { code: string }) {
               </a>
               <a
                 aria-disabled={choosingMacDownload}
-                className="rounded-2xl border border-black p-5 text-black no-underline hover:bg-black hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black aria-disabled:pointer-events-none aria-disabled:opacity-50"
+                className="rounded-2xl border border-frank-ink p-5 text-frank-ink no-underline hover:bg-frank-ink hover:text-frank-off-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-frank-ink aria-disabled:pointer-events-none aria-disabled:opacity-50"
                 href={BUZZ_RELEASES_URL}
                 onClick={(event) =>
                   void chooseMacDownload(event, {
@@ -353,25 +348,27 @@ export function InvitePage({ code }: { code: string }) {
         <div
           aria-label={document.title}
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 text-left"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-frank-ink/50 p-4 text-left"
           role="dialog"
           onMouseDown={(event) => {
             if (event.currentTarget === event.target) setDocument(null);
           }}
         >
-          <div className="max-h-[85vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-6 text-black shadow-xl sm:p-8">
+          <div className="max-h-[85vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-white p-6 text-frank-ink shadow-xl sm:p-8">
             <div className="mb-6 flex items-start justify-between gap-4">
               <h2 className="text-xl font-semibold">{document.title}</h2>
               <button
                 aria-label="Close"
-                className="text-2xl leading-none text-black/60 hover:text-black"
+                className="text-2xl leading-none text-frank-ink/60 hover:text-frank-ink"
                 type="button"
                 onClick={() => setDocument(null)}
               >
                 ×
               </button>
             </div>
-            <div className="prose prose-sm max-w-none">
+            {/* Policy documents are long-form type, so pull prose off its
+                default grey and onto brand ink. */}
+            <div className="prose prose-sm max-w-none [--tw-prose-body:#3f2a2d] [--tw-prose-bold:#3f2a2d] [--tw-prose-headings:#3f2a2d] [--tw-prose-links:#3f2a2d]">
               <Markdown remarkPlugins={[remarkGfm]}>
                 {document.markdown}
               </Markdown>

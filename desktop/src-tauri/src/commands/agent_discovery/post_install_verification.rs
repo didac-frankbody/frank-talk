@@ -28,7 +28,7 @@ fn failure(
         success: false,
         stdout: String::new(),
         stderr: format!(
-            "The installer finished, but Buzz still could not use {runtime_id} (observed: {observed})."
+            "The installer finished, but frank talk still could not use {runtime_id} (observed: {observed})."
         ),
         exit_code: None,
         hint: Some(
