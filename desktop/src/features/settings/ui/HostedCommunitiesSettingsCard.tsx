@@ -436,8 +436,8 @@ export function HostedCommunitiesSettingsCard() {
         <div className="rounded-xl border border-border/70 p-5">
           <h3 className="font-medium">Sign in to manage hosted communities</h3>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-            Authentication opens in your browser and returns securely to Buzz.
-            You can use every other part of the app without signing in.
+            Authentication opens in your browser and returns securely to frank
+            talk. You can use every other part of the app without signing in.
           </p>
           <Button
             className="mt-4"

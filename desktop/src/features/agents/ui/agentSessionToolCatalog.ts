@@ -148,8 +148,8 @@ export function getBuzzToolInfo(title: string): BuzzToolInfo | null {
     return {
       icon: Workflow,
       label: isRead
-        ? "Reads workflow state from Buzz."
-        : "Updates workflow state in Buzz.",
+        ? "Reads workflow state from frank talk."
+        : "Updates workflow state in frank talk.",
       tone: isWrite ? "write" : "read",
     };
   }
@@ -200,7 +200,7 @@ export function getBuzzToolInfo(title: string): BuzzToolInfo | null {
 
   return {
     icon: MessageSquare,
-    label: isRead ? "Reads from Buzz." : "Writes to Buzz.",
+    label: isRead ? "Reads from frank talk." : "Writes to frank talk.",
     tone: isWrite ? "write" : "read",
   };
 }

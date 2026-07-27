@@ -203,7 +203,7 @@ function FeedbackList() {
     <Page
       eyebrow="Product"
       title="Feedback"
-      description="Recent product feedback from across Buzz."
+      description="Recent product feedback from across frank talk."
     >
       <StateView resource={resource}>
         {(items) => {
