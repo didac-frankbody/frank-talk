@@ -83,13 +83,13 @@ export function IdentityKeyHelpDialog() {
               <p>
                 frank talk uses an identity key instead of a traditional
                 account. It’s created on your device and represents you whenever
-                you use Buzz.
+                you use frank talk.
               </p>
               <p>
-                Your identity belongs to you, not Buzz. There’s no password to
-                reset, and frank talk can’t recover your key if you lose it.
-                Keep a backup somewhere safe and never share it. Anyone with
-                your key can act as you.
+                Your identity belongs to you, not frank talk. There’s no
+                password to reset, and frank talk can’t recover your key if you
+                lose it. Keep a backup somewhere safe and never share it. Anyone
+                with your key can act as you.
               </p>
               <p>
                 If you’re new to frank talk, create a new identity key. If you

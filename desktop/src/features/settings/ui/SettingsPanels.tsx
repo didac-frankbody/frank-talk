@@ -543,7 +543,7 @@ function ThemeSettingsCard() {
     >
       <SettingsSectionHeader
         title="Appearance"
-        description="Choose a theme for Buzz."
+        description="Choose a theme for frank talk."
       />
 
       {/* Mode selector: System / Light / Dark */}

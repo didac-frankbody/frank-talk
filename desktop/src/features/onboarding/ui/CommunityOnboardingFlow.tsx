@@ -620,7 +620,7 @@ export function CommunityOnboardingFlow({
               <h1 className="text-title font-normal">Meet your starter team</h1>
               <p className="mx-auto mt-3 max-w-[400px] text-sm leading-6 text-foreground/80">
                 frank talk lets you bring multiple agents into the same
-                workspace. Your team will help you get started using Buzz.
+                workspace. Your team will help you get started using frank talk.
               </p>
               <div className="flex w-full flex-1 items-center justify-center py-10">
                 {starterPersonas.length > 0 ? (
