@@ -41,8 +41,10 @@ export type WelcomeTeamStarterDefinition = Readonly<{
 /** Stable identities used to provision the Rust-seeded Welcome Team. */
 export const WELCOME_TEAM_STARTERS = [
   { name: "Fizz", personaId: "builtin:fizz", role: "lead" },
-  { name: "Honey", personaId: "builtin:honey", role: "teammate" },
-  { name: "Bumble", personaId: "builtin:bumble", role: "teammate" },
+  // The `honey` and `bumble` slugs are historical; these two ship as Rosie
+  // and Clay. The ids are storage keys and do not follow the copy.
+  { name: "Rosie", personaId: "builtin:honey", role: "teammate" },
+  { name: "Clay", personaId: "builtin:bumble", role: "teammate" },
 ] as const satisfies readonly WelcomeTeamStarterDefinition[];
 
 export type WelcomeTeamAgents = [ManagedAgent, ManagedAgent, ManagedAgent];

@@ -49,6 +49,18 @@ function isRelayMembershipDeniedError(error: unknown): boolean {
   );
 }
 
+/**
+ * The three built-in personas shown on "Meet your starter team", in order.
+ *
+ * The `honey` and `bumble` slugs are historical — those personas ship as Rosie
+ * and Clay now, but the ids are storage keys and stay put.
+ */
+const STARTER_PERSONA_IDS = [
+  "builtin:fizz",
+  "builtin:honey",
+  "builtin:bumble",
+] as const;
+
 /** Fade duration for the "entering" curtain over the mounting app. */
 const ENTERING_CURTAIN_FADE_MS = 500;
 /**
@@ -178,10 +190,11 @@ export function CommunityOnboardingFlow({
     void listPersonas()
       .then((personas) =>
         setStarterPersonas(
-          ["Fizz", "Honey", "Bumble"].flatMap((name) => {
-            const persona = personas.find(
-              (candidate) => candidate.displayName === name,
-            );
+          // Match on the persona id, not the display name. This used to match on
+          // displayName, which meant renaming a persona silently emptied the
+          // starter team on this screen. The ids are storage keys; names are copy.
+          STARTER_PERSONA_IDS.flatMap((id) => {
+            const persona = personas.find((candidate) => candidate.id === id);
             return persona ? [persona] : [];
           }),
         ),

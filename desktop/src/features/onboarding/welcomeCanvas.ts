@@ -2,7 +2,7 @@ import { getCanvas, setCanvas } from "@/shared/api/tauri";
 
 export const WELCOME_CANVAS_CONTENT = `# Welcome to frank talk
 
-This private channel is your home base for getting oriented. Fizz, Honey, and Bumble can help you learn the app, troubleshoot setup, and work through something you are building.
+This private channel is your home base for getting oriented. Fizz, Rosie, and Clay can help you learn the app, troubleshoot setup, and work through something you are building.
 
 ## Work with your agents
 

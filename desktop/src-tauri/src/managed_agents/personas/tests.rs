@@ -1,7 +1,7 @@
 use super::{
     built_in_persona_records, ensure_persona_ids_are_active, ensure_persona_is_active,
     merge_personas, migrate_retired_personas, validate_persona_activation_change,
-    validate_persona_deletion, BUILT_IN_PERSONAS, RETIRED_PERSONAS,
+    validate_persona_deletion, BUILT_IN_PERSONAS, RENAMED_BUILT_INS, RETIRED_PERSONAS,
 };
 use crate::managed_agents::discovery::{default_agent_command, effective_agent_command};
 use crate::managed_agents::AgentDefinition;
@@ -43,7 +43,7 @@ fn merge_personas_adds_missing_built_ins() {
         .iter()
         .map(|record| record.display_name.as_str())
         .collect();
-    assert_eq!(display_names, vec!["Fizz", "Honey", "Bumble"]);
+    assert_eq!(display_names, vec!["Fizz", "Rosie", "Clay"]);
     let active_ids: Vec<&str> = records
         .iter()
         .filter(|record| record.is_active)
@@ -53,6 +53,57 @@ fn merge_personas_adds_missing_built_ins() {
         active_ids,
         vec!["builtin:fizz", "builtin:honey", "builtin:bumble"]
     );
+}
+
+#[test]
+fn merge_personas_renames_a_built_in_still_carrying_its_shipped_name() {
+    // Honey and Bumble ship as Rosie and Clay. Nothing else about a stored
+    // built-in is refreshed from its definition, so without the rename step an
+    // install from before the change keeps the old name for good.
+    let mut stored = built_in_persona_records("2026-03-19T00:00:00Z");
+    for (id, shipped_name) in RENAMED_BUILT_INS {
+        let record = stored
+            .iter_mut()
+            .find(|record| record.id == *id)
+            .expect("renamed built-in must still be a built-in");
+        record.display_name = (*shipped_name).to_string();
+    }
+
+    let (records, changed) = merge_personas(stored, "2026-04-01T00:00:00Z");
+
+    assert!(changed);
+    for (id, _) in RENAMED_BUILT_INS {
+        let expected = BUILT_IN_PERSONAS
+            .iter()
+            .find(|persona| persona.id == *id)
+            .expect("renamed built-in must be defined")
+            .display_name;
+        let record = records
+            .iter()
+            .find(|record| record.id == *id)
+            .expect("renamed built-in must survive the merge");
+        assert_eq!(record.display_name, expected);
+        assert_eq!(record.updated_at, "2026-04-01T00:00:00Z");
+    }
+}
+
+#[test]
+fn merge_personas_leaves_a_user_renamed_built_in_alone() {
+    let mut stored = built_in_persona_records("2026-03-19T00:00:00Z");
+    let (renamed_id, _) = RENAMED_BUILT_INS[0];
+    stored
+        .iter_mut()
+        .find(|record| record.id == renamed_id)
+        .expect("renamed built-in must exist")
+        .display_name = "My Own Name".to_string();
+
+    let (records, _) = merge_personas(stored, "2026-04-01T00:00:00Z");
+
+    let record = records
+        .iter()
+        .find(|record| record.id == renamed_id)
+        .expect("record must survive the merge");
+    assert_eq!(record.display_name, "My Own Name");
 }
 
 #[test]
