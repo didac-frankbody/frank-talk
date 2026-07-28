@@ -164,7 +164,7 @@ test("built-in personas are used from the catalog dialog", async ({ page }) => {
   await expect(page.getByTestId("persona-catalog-dialog")).toContainText(
     "Fizz",
   );
-  for (const personaName of ["Fizz", "Honey", "Bumble"]) {
+  for (const personaName of ["Fizz", "Rosie", "Clay"]) {
     await expect(page.getByTestId("persona-catalog-dialog")).toContainText(
       personaName,
     );
@@ -716,7 +716,7 @@ test("custom personas share with people and keep export separate", async ({
   ).toBeVisible();
   await expect(exportDialog.getByText("portable snapshot")).toHaveCount(0);
   await expect(
-    exportDialog.getByRole("button", { name: "Send in Buzz" }),
+    exportDialog.getByRole("button", { name: "Send in frank talk" }),
   ).toHaveCount(0);
   await expect(exportDialog.getByLabel("Memories")).toHaveCount(0);
   await expect(
@@ -1566,13 +1566,13 @@ test("inactive built-ins cannot be used to create teams", async ({ page }) => {
 
   const error = await invokeTauriExpectError(page, "create_team", {
     input: {
-      name: "Honeys",
+      name: "Rosies",
       personaIds: ["builtin:honey"],
     },
   });
 
   expect(error).toBe(
-    "Honey is not in My Agents. Choose it from Agent Catalog first.",
+    "Rosie is not in My Agents. Choose it from Agent Catalog first.",
   );
 });
 
@@ -1586,19 +1586,19 @@ test("built-in removal failures show up from My Agents", async ({ page }) => {
 
   await invokeTauri(page, "create_team", {
     input: {
-      name: "Honeys",
+      name: "Rosies",
       personaIds: ["builtin:honey"],
     },
   });
 
   await page.keyboard.press("Escape");
-  await page.getByLabel("Open actions for Honey").click();
+  await page.getByLabel("Open actions for Rosie").click();
   await page.getByRole("menuitem", { name: "Delete" }).click();
 
   await expect(
     page
       .locator("[data-sonner-toast]")
-      .filter({ hasText: "Honey is still referenced by a team." }),
+      .filter({ hasText: "Rosie is still referenced by a team." }),
   ).toBeVisible();
 });
 

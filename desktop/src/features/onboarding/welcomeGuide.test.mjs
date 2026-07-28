@@ -293,51 +293,51 @@ test("welcome team starter definitions and role identities are stable", () => {
   assert.equal(WELCOME_TEAM_ID, "builtin-team:welcome");
   assert.deepEqual(WELCOME_TEAM_STARTERS, [
     { name: "Fizz", personaId: "builtin:fizz", role: "lead" },
-    { name: "Honey", personaId: "builtin:honey", role: "teammate" },
-    { name: "Bumble", personaId: "builtin:bumble", role: "teammate" },
+    { name: "Rosie", personaId: "builtin:honey", role: "teammate" },
+    { name: "Clay", personaId: "builtin:bumble", role: "teammate" },
   ]);
 });
 
 test("starter matching ignores user agents with a Welcome persona", () => {
-  const honey = WELCOME_TEAM_STARTERS[1];
-  const userHoney = makeAgent({
-    personaId: honey.personaId,
+  const rosie = WELCOME_TEAM_STARTERS[1];
+  const userRosie = makeAgent({
+    personaId: rosie.personaId,
     teamId: null,
   });
 
   assert.equal(
-    pickWelcomeTeamStarterAgentForRelay([userHoney], honey, RELAY_A),
+    pickWelcomeTeamStarterAgentForRelay([userRosie], rosie, RELAY_A),
     null,
   );
 });
 
 test("starter matching uses persona identity rather than display name", () => {
-  const honey = WELCOME_TEAM_STARTERS[1];
-  const renamedHoney = makeAgent({
-    name: "Honey the Helper",
-    personaId: honey.personaId,
+  const rosie = WELCOME_TEAM_STARTERS[1];
+  const renamedRosie = makeAgent({
+    name: "Rosie the Helper",
+    personaId: rosie.personaId,
   });
-  const nameOnlyHoney = makeAgent({ name: honey.name, pubkey: PUB_B });
+  const nameOnlyRosie = makeAgent({ name: rosie.name, pubkey: PUB_B });
 
   assert.equal(
     pickWelcomeTeamStarterAgentForRelay(
-      [nameOnlyHoney, renamedHoney],
-      honey,
+      [nameOnlyRosie, renamedRosie],
+      rosie,
       RELAY_A,
     ),
-    renamedHoney,
+    renamedRosie,
   );
 });
 
 test("starter matching is relay scoped and normalizes trailing slashes", () => {
-  const bumble = WELCOME_TEAM_STARTERS[2];
+  const clay = WELCOME_TEAM_STARTERS[2];
   const otherRelay = makeAgent({
-    personaId: bumble.personaId,
+    personaId: clay.personaId,
     relayUrl: RELAY_B,
     status: "running",
   });
   const matchingRelay = makeAgent({
-    personaId: bumble.personaId,
+    personaId: clay.personaId,
     relayUrl: `${RELAY_A}/`,
     pubkey: PUB_B,
   });
@@ -345,7 +345,7 @@ test("starter matching is relay scoped and normalizes trailing slashes", () => {
   assert.equal(
     pickWelcomeTeamStarterAgentForRelay(
       [otherRelay, matchingRelay],
-      bumble,
+      clay,
       RELAY_A,
     ),
     matchingRelay,
